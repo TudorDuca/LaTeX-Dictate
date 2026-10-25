@@ -1,0 +1,20 @@
+{"id": "f01", "pred": "x^2 + y^2 = z^2", "raw": "x^2 + y^2 = z^2", "transcript": null, "asr_s": null, "gen_s": 1.5096, "total_s": 1.5096}
+{"id": "f02", "pred": "\\frac{1}{2}\\cdot b+c", "raw": "$\\frac{1}{2}\\cdot b+c$", "transcript": null, "asr_s": null, "gen_s": 1.5063, "total_s": 1.5063}
+{"id": "f03", "pred": "\\frac{a+b}{c}", "raw": "$\\frac{a+b}{c}$", "transcript": null, "asr_s": null, "gen_s": 1.4026, "total_s": 1.4026}
+{"id": "f04", "pred": "y^2+1=0", "raw": "y^2+1=0", "transcript": null, "asr_s": null, "gen_s": 1.3709, "total_s": 1.3709}
+{"id": "f05", "pred": "x^2+1", "raw": "x^2+1", "transcript": null, "asr_s": null, "gen_s": 1.317, "total_s": 1.317}
+{"id": "f06", "pred": "\\sin^2(\\theta)+\\cos^2(\\theta)=1", "raw": "\\(\\sin^2(\\theta)+\\cos^2(\\theta)=1\\).", "transcript": null, "asr_s": null, "gen_s": 1.7943, "total_s": 1.7943}
+{"id": "f07", "pred": "\\lim_{h\\to 0}\\frac{f(x+h)-f(x)}{h}", "raw": "$\\lim_{h\\to 0}\\frac{f(x+h)-f(x)}{h}$", "transcript": null, "asr_s": null, "gen_s": 1.9261, "total_s": 1.9261}
+{"id": "f08", "pred": "The expression is: $2^n+1\\div2$", "raw": "The expression is: $2^n+1\\div2$.", "transcript": null, "asr_s": null, "gen_s": 1.6163, "total_s": 1.6163}
+{"id": "f09", "pred": "\\int_0^\\infty e^{-x^2}\\,dx=\\sqrt{\\pi}/2", "raw": "$\\int_0^\\infty e^{-x^2}\\,dx=\\sqrt{\\pi}/2$", "transcript": null, "asr_s": null, "gen_s": 1.9372, "total_s": 1.9372}
+{"id": "f10", "pred": "\\frac{n!}{k! (n-k)!}", "raw": "$\\frac{n!}{k! (n-k)!}$", "transcript": null, "asr_s": null, "gen_s": 1.5701, "total_s": 1.5701}
+{"id": "f11", "pred": "\\lambda_{i}=0", "raw": "\\lambda_{i}=0", "transcript": null, "asr_s": null, "gen_s": 1.3436, "total_s": 1.3436}
+{"id": "f12", "pred": "\\frac{b^3}{a^3}", "raw": "$\\frac{b^3}{a^3}$", "transcript": null, "asr_s": null, "gen_s": 1.549, "total_s": 1.549}
+{"id": "f13", "pred": "\\sum_{x}^{n} x^2", "raw": "\\sum_{x}^{n} x^2", "transcript": null, "asr_s": null, "gen_s": 1.5323, "total_s": 1.5323}
+{"id": "f14", "pred": "\\Delta", "raw": "\\Delta", "transcript": null, "asr_s": null, "gen_s": 1.2409, "total_s": 1.2409}
+{"id": "f15", "pred": "\\frac{d}{dx}\\left[\\ln(x)\\right]=\\frac{1}{x}", "raw": "$\\frac{d}{dx}\\left[\\ln(x)\\right]=\\frac{1}{x}$", "transcript": null, "asr_s": null, "gen_s": 1.9702, "total_s": 1.9702}
+{"id": "f16", "pred": "\\frac{\\partial^2 u}{\\partial t^2} = c^2 \\frac{\\partial u}{\\partial x}", "raw": "$\\frac{\\partial^2 u}{\\partial t^2} = c^2 \\frac{\\partial u}{\\partial x}$", "transcript": null, "asr_s": null, "gen_s": 2.2187, "total_s": 2.2187}
+{"id": "f17", "pred": "\\sqrt{\\sum_{i=1}^{n} x_i^2}", "raw": "$\\sqrt{\\sum_{i=1}^{n} x_i^2}$", "transcript": null, "asr_s": null, "gen_s": 1.849, "total_s": 1.849}
+{"id": "f18", "pred": "\\beta = x^{\\transpose} \\cdot x^{-1} \\cdot x^{\\transpose}", "raw": "$\\beta = x^{\\transpose} \\cdot x^{-1} \\cdot x^{\\transpose}$", "transcript": null, "asr_s": null, "gen_s": 2.032, "total_s": 2.032}
+{"id": "f19", "pred": "\\frac{1}{ad-bc}\\cdot\\frac{d-b}{c-a}", "raw": "$\\frac{1}{ad-bc}\\cdot\\frac{d-b}{c-a}$", "transcript": null, "asr_s": null, "gen_s": 1.8985, "total_s": 1.8985}
+{"id": "f20", "pred": "\\sqrt{x^2} < 2", "raw": "$\\sqrt{x^2} < 2$", "transcript": null, "asr_s": null, "gen_s": 1.5511, "total_s": 1.5511}

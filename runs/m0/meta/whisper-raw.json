@@ -1,0 +1,45 @@
+{
+  "system": "whisper-raw",
+  "environment": {
+    "timestamp": "2026-10-25T12:27:30+00:00",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "chip": "Apple M5",
+    "memory_gb": 17.2,
+    "macos": "26.6.2",
+    "python": "3.12.14",
+    "packages": {
+      "ldbench": "0.1.0",
+      "mlx": "0.32.4",
+      "mlx-lm": "0.32.2",
+      "mlx-whisper": "0.4.3",
+      "mlx-audio": "0.6.1",
+      "huggingface_hub": "2.3.0",
+      "pyarrow": "26.0.0",
+      "rapidfuzz": "3.14.6"
+    }
+  },
+  "models": {
+    "whisper-turbo": {
+      "repo": "mlx-community/whisper-large-v3-turbo",
+      "sha": "a4aaeec0636e6fef84abdcbe3544cb2bf7e9f6fb",
+      "kind": "mlx-whisper",
+      "load_s": 1.33,
+      "peak_memory_gb": 2.186
+    }
+  },
+  "splits": {
+    "equations": {
+      "items": 50,
+      "new_predictions": 50
+    },
+    "sentences": {
+      "items": 10,
+      "new_predictions": 10
+    },
+    "own": {
+      "items": 20,
+      "new_predictions": 20
+    }
+  }
+}

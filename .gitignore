@@ -10,7 +10,8 @@ data/*
 !data/own/
 data/own/audio/
 data/own/manifest.jsonl
-runs/
+runs/*
+!runs/m0/
 
 # KaTeX checker dependencies
 tools/katex/node_modules/

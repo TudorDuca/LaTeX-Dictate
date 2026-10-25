@@ -1,0 +1,1362 @@
+{
+  "run": "m0",
+  "splits": {
+    "equations": {
+      "task": "equations",
+      "n_items": 50,
+      "stats": {
+        "split": "equations",
+        "method": "parquet",
+        "files": [
+          "equations_test-00000-of-00001.parquet"
+        ],
+        "rows_total": 2880,
+        "rows_by_language_group": {
+          "eng/human": 1515,
+          "eng/tts": 1230,
+          "ru/human": 45,
+          "ru/tts": 90
+        },
+        "sampled": {
+          "human": 40,
+          "tts": 10
+        },
+        "quota": {
+          "human": 40,
+          "tts": 10
+        },
+        "row_groups_downloaded": 25,
+        "audio_formats": {
+          "wav": 50
+        },
+        "sample_rates": {
+          "48000": 37,
+          "44100": 2,
+          "16000": 1,
+          "24000": 10
+        },
+        "mean_duration_s": 8954.22,
+        "columns": [
+          "spk: string",
+          "language: string",
+          "sentence_id: int64",
+          "is_tts: int64",
+          "pronunciation: string",
+          "whisper_text: string",
+          "sentence: string",
+          "audio_path: struct<bytes: binary, path: string>",
+          "formula_info: string",
+          "count_formula_symbols: double",
+          "count_formula_symbols_strates: string",
+          "__index_level_0__: int64",
+          "sentence_normalized: string"
+        ],
+        "audio_column": "audio_path",
+        "repo": "marsianin500/Speech2Latex",
+        "hf_split": "equations_test",
+        "revision": "main"
+      },
+      "systems": {
+        "whisper-raw": {
+          "status": "ok",
+          "n": 50,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "latex": {
+              "cer": 1.4093862815884477,
+              "ter": 2.626699629171817,
+              "exact": 0.0,
+              "cer_ci": [
+                1.2333825701624814,
+                1.6183908045977011
+              ],
+              "cer_by_group": {
+                "human": 1.3642143505903723,
+                "tts": 1.5845070422535212
+              },
+              "n_by_group": {
+                "human": 40,
+                "tts": 10
+              }
+            }
+          },
+          "headline": {
+            "cer": 1.4093862815884477,
+            "ter": 2.626699629171817,
+            "exact": 0.0,
+            "cer_ci": [
+              1.2333825701624814,
+              1.6183908045977011
+            ],
+            "cer_by_group": {
+              "human": 1.3642143505903723,
+              "tts": 1.5845070422535212
+            },
+            "n_by_group": {
+              "human": 40,
+              "tts": 10
+            }
+          },
+          "render_rate": 1.0,
+          "latency_p50_s": 0.3677,
+          "latency_p95_s": 0.41785,
+          "latency_scope": "end of audio to LaTeX",
+          "peak_memory_gb": 2.19,
+          "load_s": 1.3
+        },
+        "paper@dataset-asr": {
+          "status": "ok",
+          "n": 50,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "latex": {
+              "cer": 0.4541516245487365,
+              "ter": 0.595797280593325,
+              "exact": 0.28,
+              "cer_ci": [
+                0.18295371050698017,
+                0.9782771535580524
+              ],
+              "cer_by_group": {
+                "human": 0.40236148955495005,
+                "tts": 0.6549295774647887
+              },
+              "n_by_group": {
+                "human": 40,
+                "tts": 10
+              }
+            }
+          },
+          "headline": {
+            "cer": 0.4541516245487365,
+            "ter": 0.595797280593325,
+            "exact": 0.28,
+            "cer_ci": [
+              0.18295371050698017,
+              0.9782771535580524
+            ],
+            "cer_by_group": {
+              "human": 0.40236148955495005,
+              "tts": 0.6549295774647887
+            },
+            "n_by_group": {
+              "human": 40,
+              "tts": 10
+            }
+          },
+          "render_rate": 1.0,
+          "latency_p50_s": 0.48245000000000005,
+          "latency_p95_s": 0.990275,
+          "latency_scope": "text step only (transcript from dataset)",
+          "peak_memory_gb": 6.26,
+          "load_s": 2.6
+        },
+        "paper@whisper-turbo": {
+          "status": "ok",
+          "n": 50,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "latex": {
+              "cer": 0.2036101083032491,
+              "ter": 0.23485784919653893,
+              "exact": 0.32,
+              "cer_ci": [
+                0.13351877607788595,
+                0.2858231707317073
+              ],
+              "cer_by_group": {
+                "human": 0.17438692098092642,
+                "tts": 0.31690140845070425
+              },
+              "n_by_group": {
+                "human": 40,
+                "tts": 10
+              }
+            }
+          },
+          "headline": {
+            "cer": 0.2036101083032491,
+            "ter": 0.23485784919653893,
+            "exact": 0.32,
+            "cer_ci": [
+              0.13351877607788595,
+              0.2858231707317073
+            ],
+            "cer_by_group": {
+              "human": 0.17438692098092642,
+              "tts": 0.31690140845070425
+            },
+            "n_by_group": {
+              "human": 40,
+              "tts": 10
+            }
+          },
+          "render_rate": 1.0,
+          "latency_p50_s": 0.84945,
+          "latency_p95_s": 1.2022749999999998,
+          "latency_scope": "end of audio to LaTeX",
+          "peak_memory_gb": 8.44,
+          "load_s": 3.9
+        },
+        "qwen3-4b@whisper-turbo": {
+          "status": "ok",
+          "n": 50,
+          "coverage": 1.0,
+          "nonempty": 0.98,
+          "views": {
+            "latex": {
+              "cer": 0.7703971119133574,
+              "ter": 0.9888751545117429,
+              "exact": 0.08,
+              "cer_ci": [
+                0.502498215560314,
+                1.1697013838310268
+              ],
+              "cer_by_group": {
+                "human": 0.5431425976385105,
+                "tts": 1.6514084507042253
+              },
+              "n_by_group": {
+                "human": 40,
+                "tts": 10
+              }
+            }
+          },
+          "headline": {
+            "cer": 0.7703971119133574,
+            "ter": 0.9888751545117429,
+            "exact": 0.08,
+            "cer_ci": [
+              0.502498215560314,
+              1.1697013838310268
+            ],
+            "cer_by_group": {
+              "human": 0.5431425976385105,
+              "tts": 1.6514084507042253
+            },
+            "n_by_group": {
+              "human": 40,
+              "tts": 10
+            }
+          },
+          "render_rate": 0.98,
+          "latency_p50_s": 0.8237,
+          "latency_p95_s": 1.204455,
+          "latency_scope": "end of audio to LaTeX",
+          "peak_memory_gb": 4.79,
+          "load_s": 2.9
+        },
+        "qwen3-4b@oracle": {
+          "status": "ok",
+          "n": 50,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "latex": {
+              "cer": 0.4252707581227437,
+              "ter": 0.43757725587144625,
+              "exact": 0.18,
+              "cer_ci": [
+                0.3085271317829457,
+                0.5365296803652968
+              ],
+              "cer_by_group": {
+                "human": 0.3887375113533152,
+                "tts": 0.5669014084507042
+              },
+              "n_by_group": {
+                "human": 40,
+                "tts": 10
+              }
+            }
+          },
+          "headline": {
+            "cer": 0.4252707581227437,
+            "ter": 0.43757725587144625,
+            "exact": 0.18,
+            "cer_ci": [
+              0.3085271317829457,
+              0.5365296803652968
+            ],
+            "cer_by_group": {
+              "human": 0.3887375113533152,
+              "tts": 0.5669014084507042
+            },
+            "n_by_group": {
+              "human": 40,
+              "tts": 10
+            }
+          },
+          "render_rate": 1.0,
+          "latency_p50_s": 0.42495,
+          "latency_p95_s": 0.6587999999999998,
+          "latency_scope": "text step only (transcript from dataset)",
+          "peak_memory_gb": 2.61,
+          "load_s": 1.6
+        },
+        "qwen2-audio@e2e": {
+          "status": "ok",
+          "n": 50,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "latex": {
+              "cer": 0.8288808664259928,
+              "ter": 0.9085290482076638,
+              "exact": 0.02,
+              "cer_ci": [
+                0.7572881355932204,
+                0.9206349206349206
+              ],
+              "cer_by_group": {
+                "human": 0.8428701180744778,
+                "tts": 0.7746478873239436
+              },
+              "n_by_group": {
+                "human": 40,
+                "tts": 10
+              }
+            }
+          },
+          "headline": {
+            "cer": 0.8288808664259928,
+            "ter": 0.9085290482076638,
+            "exact": 0.02,
+            "cer_ci": [
+              0.7572881355932204,
+              0.9206349206349206
+            ],
+            "cer_by_group": {
+              "human": 0.8428701180744778,
+              "tts": 0.7746478873239436
+            },
+            "n_by_group": {
+              "human": 40,
+              "tts": 10
+            }
+          },
+          "render_rate": 0.94,
+          "latency_p50_s": 1.47475,
+          "latency_p95_s": 2.0231499999999993,
+          "latency_scope": "end of audio to LaTeX",
+          "peak_memory_gb": 7.56,
+          "load_s": 4.2
+        }
+      }
+    },
+    "sentences": {
+      "task": "sentences",
+      "n_items": 10,
+      "stats": {
+        "split": "sentences",
+        "method": "parquet",
+        "files": [
+          "sentences_test-00000-of-00002.parquet",
+          "sentences_test-00001-of-00002.parquet"
+        ],
+        "rows_total": 2850,
+        "rows_by_language_group": {
+          "eng/human": 772,
+          "eng/tts": 2078
+        },
+        "sampled": {
+          "human": 10
+        },
+        "quota": {
+          "human": 10
+        },
+        "row_groups_downloaded": 9,
+        "audio_formats": {
+          "wav": 10
+        },
+        "sample_rates": {
+          "48000": 8,
+          "44100": 2
+        },
+        "mean_duration_s": 12.083,
+        "columns": [
+          "spk: string",
+          "language: string",
+          "sentence_id: int64",
+          "is_tts: int64",
+          "pronunciation: string",
+          "whisper_text: string",
+          "sentence: string",
+          "audio_path: struct<bytes: binary, path: string>",
+          "formula_info: string",
+          "count_formula_symbols: double",
+          "count_formula_symbols_strates: string",
+          "__index_level_0__: int64",
+          "sentence_normalized: string"
+        ],
+        "audio_column": "audio_path",
+        "repo": "marsianin500/Speech2Latex",
+        "hf_split": "sentences_test",
+        "revision": "main"
+      },
+      "systems": {
+        "whisper-raw": {
+          "status": "ok",
+          "n": 10,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "full": {
+              "cer": 0.19129082426127528,
+              "ter": 0.39,
+              "exact": 0.0,
+              "cer_ci": [
+                0.1225609756097561,
+                0.31367521367521367
+              ],
+              "cer_by_group": {
+                "human": 0.19129082426127528
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            },
+            "formulas": {
+              "cer": 1.0,
+              "ter": 1.0,
+              "exact": 0.0,
+              "cer_ci": [
+                1.0,
+                1.0
+              ],
+              "cer_by_group": {
+                "human": 1.0
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            }
+          },
+          "headline": {
+            "cer": 1.0,
+            "ter": 1.0,
+            "exact": 0.0,
+            "cer_ci": [
+              1.0,
+              1.0
+            ],
+            "cer_by_group": {
+              "human": 1.0
+            },
+            "n_by_group": {
+              "human": 10
+            }
+          },
+          "render_rate": null,
+          "latency_p50_s": 0.4047,
+          "latency_p95_s": 0.50183,
+          "latency_scope": "end of audio to LaTeX",
+          "peak_memory_gb": 2.19,
+          "load_s": 1.3
+        },
+        "paper@dataset-asr": {
+          "status": "ok",
+          "n": 10,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "full": {
+              "cer": 0.15707620528771385,
+              "ter": 0.19,
+              "exact": 0.1,
+              "cer_ci": [
+                0.076,
+                0.27449617790132036
+              ],
+              "cer_by_group": {
+                "human": 0.15707620528771385
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            },
+            "formulas": {
+              "cer": 0.5031446540880503,
+              "ter": 0.8823529411764706,
+              "exact": 0.1,
+              "cer_ci": [
+                0.2840909090909091,
+                0.654320987654321
+              ],
+              "cer_by_group": {
+                "human": 0.5031446540880503
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            }
+          },
+          "headline": {
+            "cer": 0.5031446540880503,
+            "ter": 0.8823529411764706,
+            "exact": 0.1,
+            "cer_ci": [
+              0.2840909090909091,
+              0.654320987654321
+            ],
+            "cer_by_group": {
+              "human": 0.5031446540880503
+            },
+            "n_by_group": {
+              "human": 10
+            }
+          },
+          "render_rate": 0.95,
+          "latency_p50_s": 0.81705,
+          "latency_p95_s": 4.379544999999995,
+          "latency_scope": "text step only (transcript from dataset)",
+          "peak_memory_gb": 6.26,
+          "load_s": 0.9
+        },
+        "paper@whisper-turbo": {
+          "status": "ok",
+          "n": 10,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "full": {
+              "cer": 0.22161741835147744,
+              "ter": 0.27,
+              "exact": 0.1,
+              "cer_ci": [
+                0.05988593155893536,
+                0.4045025417574437
+              ],
+              "cer_by_group": {
+                "human": 0.22161741835147744
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            },
+            "formulas": {
+              "cer": 0.5031446540880503,
+              "ter": 0.8235294117647058,
+              "exact": 0.2,
+              "cer_ci": [
+                0.25925925925925924,
+                0.6521739130434783
+              ],
+              "cer_by_group": {
+                "human": 0.5031446540880503
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            }
+          },
+          "headline": {
+            "cer": 0.5031446540880503,
+            "ter": 0.8235294117647058,
+            "exact": 0.2,
+            "cer_ci": [
+              0.25925925925925924,
+              0.6521739130434783
+            ],
+            "cer_by_group": {
+              "human": 0.5031446540880503
+            },
+            "n_by_group": {
+              "human": 10
+            }
+          },
+          "render_rate": 0.9473684210526315,
+          "latency_p50_s": 1.2199499999999999,
+          "latency_p95_s": 4.957784999999996,
+          "latency_scope": "end of audio to LaTeX",
+          "peak_memory_gb": 8.45,
+          "load_s": 2.2
+        },
+        "qwen3-4b@whisper-turbo": {
+          "status": "ok",
+          "n": 10,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "full": {
+              "cer": 0.1423017107309487,
+              "ter": 0.2,
+              "exact": 0.1,
+              "cer_ci": [
+                0.0778652668416448,
+                0.23357664233576642
+              ],
+              "cer_by_group": {
+                "human": 0.1423017107309487
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            },
+            "formulas": {
+              "cer": 0.5345911949685535,
+              "ter": 0.6470588235294118,
+              "exact": 0.3,
+              "cer_ci": [
+                0.323943661971831,
+                0.7378640776699029
+              ],
+              "cer_by_group": {
+                "human": 0.5345911949685535
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            }
+          },
+          "headline": {
+            "cer": 0.5345911949685535,
+            "ter": 0.6470588235294118,
+            "exact": 0.3,
+            "cer_ci": [
+              0.323943661971831,
+              0.7378640776699029
+            ],
+            "cer_by_group": {
+              "human": 0.5345911949685535
+            },
+            "n_by_group": {
+              "human": 10
+            }
+          },
+          "render_rate": 1.0,
+          "latency_p50_s": 1.0784,
+          "latency_p95_s": 1.66062,
+          "latency_scope": "end of audio to LaTeX",
+          "peak_memory_gb": 4.79,
+          "load_s": 2.9
+        },
+        "qwen3-4b@oracle": {
+          "status": "ok",
+          "n": 10,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "full": {
+              "cer": 0.11353032659409021,
+              "ter": 0.135,
+              "exact": 0.4,
+              "cer_ci": [
+                0.023957409050576754,
+                0.2453092425295344
+              ],
+              "cer_by_group": {
+                "human": 0.11353032659409021
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            },
+            "formulas": {
+              "cer": 0.48427672955974843,
+              "ter": 0.5882352941176471,
+              "exact": 0.5,
+              "cer_ci": [
+                0.14285714285714285,
+                0.6842105263157895
+              ],
+              "cer_by_group": {
+                "human": 0.48427672955974843
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            }
+          },
+          "headline": {
+            "cer": 0.48427672955974843,
+            "ter": 0.5882352941176471,
+            "exact": 0.5,
+            "cer_ci": [
+              0.14285714285714285,
+              0.6842105263157895
+            ],
+            "cer_by_group": {
+              "human": 0.48427672955974843
+            },
+            "n_by_group": {
+              "human": 10
+            }
+          },
+          "render_rate": 1.0,
+          "latency_p50_s": 0.7041999999999999,
+          "latency_p95_s": 1.18102,
+          "latency_scope": "text step only (transcript from dataset)",
+          "peak_memory_gb": 2.61,
+          "load_s": 1.6
+        },
+        "qwen2-audio@e2e": {
+          "status": "ok",
+          "n": 10,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "full": {
+              "cer": 0.3118195956454121,
+              "ter": 0.385,
+              "exact": 0.0,
+              "cer_ci": [
+                0.22186076772934288,
+                0.4049382716049383
+              ],
+              "cer_by_group": {
+                "human": 0.3118195956454121
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            },
+            "formulas": {
+              "cer": 1.1635220125786163,
+              "ter": 1.2941176470588236,
+              "exact": 0.2,
+              "cer_ci": [
+                0.8104089219330854,
+                2.0
+              ],
+              "cer_by_group": {
+                "human": 1.1635220125786163
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            }
+          },
+          "headline": {
+            "cer": 1.1635220125786163,
+            "ter": 1.2941176470588236,
+            "exact": 0.2,
+            "cer_ci": [
+              0.8104089219330854,
+              2.0
+            ],
+            "cer_by_group": {
+              "human": 1.1635220125786163
+            },
+            "n_by_group": {
+              "human": 10
+            }
+          },
+          "render_rate": 1.0,
+          "latency_p50_s": 2.512,
+          "latency_p95_s": 3.2683299999999997,
+          "latency_scope": "end of audio to LaTeX",
+          "peak_memory_gb": 7.56,
+          "load_s": 4.2
+        }
+      }
+    },
+    "own": {
+      "task": "equations",
+      "n_items": 20,
+      "stats": {
+        "split": "own",
+        "method": "local",
+        "sampled": {
+          "own": 20
+        },
+        "missing_recordings": [],
+        "mean_duration_s": 8.638
+      },
+      "systems": {
+        "whisper-raw": {
+          "status": "ok",
+          "n": 20,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "latex": {
+              "cer": 1.3576158940397351,
+              "ter": 2.4715447154471546,
+              "exact": 0.0,
+              "cer_ci": [
+                1.1668597914252608,
+                1.6232741617357003
+              ],
+              "cer_by_group": {
+                "own": 1.3576158940397351
+              },
+              "n_by_group": {
+                "own": 20
+              }
+            }
+          },
+          "headline": {
+            "cer": 1.3576158940397351,
+            "ter": 2.4715447154471546,
+            "exact": 0.0,
+            "cer_ci": [
+              1.1668597914252608,
+              1.6232741617357003
+            ],
+            "cer_by_group": {
+              "own": 1.3576158940397351
+            },
+            "n_by_group": {
+              "own": 20
+            }
+          },
+          "render_rate": 1.0,
+          "latency_p50_s": 0.3706,
+          "latency_p95_s": 0.40715,
+          "latency_scope": "end of audio to LaTeX",
+          "peak_memory_gb": 2.19,
+          "load_s": 1.3
+        },
+        "paper@dataset-asr": {
+          "status": "skipped: split has no 'whisper_text' column"
+        },
+        "paper@whisper-turbo": {
+          "status": "ok",
+          "n": 20,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "latex": {
+              "cer": 0.15397350993377484,
+              "ter": 0.11653116531165311,
+              "exact": 0.4,
+              "cer_ci": [
+                0.08768656716417911,
+                0.2207001522070015
+              ],
+              "cer_by_group": {
+                "own": 0.15397350993377484
+              },
+              "n_by_group": {
+                "own": 20
+              }
+            }
+          },
+          "headline": {
+            "cer": 0.15397350993377484,
+            "ter": 0.11653116531165311,
+            "exact": 0.4,
+            "cer_ci": [
+              0.08768656716417911,
+              0.2207001522070015
+            ],
+            "cer_by_group": {
+              "own": 0.15397350993377484
+            },
+            "n_by_group": {
+              "own": 20
+            }
+          },
+          "render_rate": 1.0,
+          "latency_p50_s": 0.9399,
+          "latency_p95_s": 1.2484100000000007,
+          "latency_scope": "end of audio to LaTeX",
+          "peak_memory_gb": 8.44,
+          "load_s": 3.9
+        },
+        "qwen3-4b@whisper-turbo": {
+          "status": "ok",
+          "n": 20,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "latex": {
+              "cer": 0.31125827814569534,
+              "ter": 0.25474254742547425,
+              "exact": 0.3,
+              "cer_ci": [
+                0.1683366733466934,
+                0.46455223880597013
+              ],
+              "cer_by_group": {
+                "own": 0.31125827814569534
+              },
+              "n_by_group": {
+                "own": 20
+              }
+            }
+          },
+          "headline": {
+            "cer": 0.31125827814569534,
+            "ter": 0.25474254742547425,
+            "exact": 0.3,
+            "cer_ci": [
+              0.1683366733466934,
+              0.46455223880597013
+            ],
+            "cer_by_group": {
+              "own": 0.31125827814569534
+            },
+            "n_by_group": {
+              "own": 20
+            }
+          },
+          "render_rate": 1.0,
+          "latency_p50_s": 0.8887499999999999,
+          "latency_p95_s": 1.1761700000000002,
+          "latency_scope": "end of audio to LaTeX",
+          "peak_memory_gb": 4.79,
+          "load_s": 2.9
+        },
+        "qwen3-4b@oracle": {
+          "status": "skipped: split has no 'pronunciation' column"
+        },
+        "qwen2-audio@e2e": {
+          "status": "ok",
+          "n": 20,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "latex": {
+              "cer": 0.5711920529801324,
+              "ter": 0.5718157181571816,
+              "exact": 0.1,
+              "cer_ci": [
+                0.42054263565891475,
+                0.6989389920424404
+              ],
+              "cer_by_group": {
+                "own": 0.5711920529801324
+              },
+              "n_by_group": {
+                "own": 20
+              }
+            }
+          },
+          "headline": {
+            "cer": 0.5711920529801324,
+            "ter": 0.5718157181571816,
+            "exact": 0.1,
+            "cer_ci": [
+              0.42054263565891475,
+              0.6989389920424404
+            ],
+            "cer_by_group": {
+              "own": 0.5711920529801324
+            },
+            "n_by_group": {
+              "own": 20
+            }
+          },
+          "render_rate": 0.9,
+          "latency_p50_s": 1.5606,
+          "latency_p95_s": 2.041335,
+          "latency_scope": "end of audio to LaTeX",
+          "peak_memory_gb": 7.56,
+          "load_s": 4.2
+        }
+      }
+    }
+  },
+  "systems": {
+    "whisper-raw": {
+      "system": "whisper-raw",
+      "environment": {
+        "timestamp": "2026-10-25T12:27:30+00:00",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "machine": "arm64",
+        "chip": "Apple M5",
+        "memory_gb": 17.2,
+        "macos": "26.6.2",
+        "python": "3.12.14",
+        "packages": {
+          "ldbench": "0.1.0",
+          "mlx": "0.32.4",
+          "mlx-lm": "0.32.2",
+          "mlx-whisper": "0.4.3",
+          "mlx-audio": "0.6.1",
+          "huggingface_hub": "2.3.0",
+          "pyarrow": "26.0.0",
+          "rapidfuzz": "3.14.6"
+        }
+      },
+      "models": {
+        "whisper-turbo": {
+          "repo": "mlx-community/whisper-large-v3-turbo",
+          "sha": "a4aaeec0636e6fef84abdcbe3544cb2bf7e9f6fb",
+          "kind": "mlx-whisper",
+          "load_s": 1.33,
+          "peak_memory_gb": 2.186
+        }
+      },
+      "splits": {
+        "equations": {
+          "items": 50,
+          "new_predictions": 50
+        },
+        "sentences": {
+          "items": 10,
+          "new_predictions": 10
+        },
+        "own": {
+          "items": 20,
+          "new_predictions": 20
+        }
+      }
+    },
+    "paper@dataset-asr": {
+      "system": "paper@dataset-asr",
+      "environment": {
+        "timestamp": "2026-10-25T12:28:03+00:00",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "machine": "arm64",
+        "chip": "Apple M5",
+        "memory_gb": 17.2,
+        "macos": "26.6.2",
+        "python": "3.12.14",
+        "packages": {
+          "ldbench": "0.1.0",
+          "mlx": "0.32.4",
+          "mlx-lm": "0.32.2",
+          "mlx-whisper": "0.4.3",
+          "mlx-audio": "0.6.1",
+          "huggingface_hub": "2.3.0",
+          "pyarrow": "26.0.0",
+          "rapidfuzz": "3.14.6"
+        }
+      },
+      "models": {
+        "paper-eq": {
+          "repo": "marsianin500/Qwen2.5-math-1.5B-instruct-equations_multilingual_mix",
+          "sha": "3a085dcbcdb489d4ecea62b2e7cc4257dcc62388",
+          "kind": "mlx-lm",
+          "load_s": 3.27,
+          "peak_memory_gb": 3.136
+        },
+        "paper-sent": {
+          "repo": "marsianin500/Qwen2.5-math-1.5B-instruct-sentences_eng_mix",
+          "sha": "94bc54a177a65621310b79ebda5f563810e1d934",
+          "kind": "mlx-lm",
+          "load_s": 1.28,
+          "peak_memory_gb": 6.259
+        }
+      },
+      "splits": {
+        "equations": {
+          "items": 50,
+          "new_predictions": 50
+        },
+        "sentences": {
+          "items": 10,
+          "new_predictions": 10
+        },
+        "own": {
+          "skipped": "split has no 'whisper_text' column"
+        }
+      }
+    },
+    "paper@whisper-turbo": {
+      "system": "paper@whisper-turbo",
+      "environment": {
+        "timestamp": "2026-10-25T12:29:53+00:00",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "machine": "arm64",
+        "chip": "Apple M5",
+        "memory_gb": 17.2,
+        "macos": "26.6.2",
+        "python": "3.12.14",
+        "packages": {
+          "ldbench": "0.1.0",
+          "mlx": "0.32.4",
+          "mlx-lm": "0.32.2",
+          "mlx-whisper": "0.4.3",
+          "mlx-audio": "0.6.1",
+          "huggingface_hub": "2.3.0",
+          "pyarrow": "26.0.0",
+          "rapidfuzz": "3.14.6"
+        }
+      },
+      "models": {
+        "paper-eq": {
+          "repo": "marsianin500/Qwen2.5-math-1.5B-instruct-equations_multilingual_mix",
+          "sha": "3a085dcbcdb489d4ecea62b2e7cc4257dcc62388",
+          "kind": "mlx-lm",
+          "load_s": 2.56,
+          "peak_memory_gb": 6.257
+        },
+        "paper-sent": {
+          "repo": "marsianin500/Qwen2.5-math-1.5B-instruct-sentences_eng_mix",
+          "sha": "94bc54a177a65621310b79ebda5f563810e1d934",
+          "kind": "mlx-lm",
+          "load_s": 0.89,
+          "peak_memory_gb": 6.257
+        }
+      },
+      "splits": {
+        "equations": {
+          "items": 50,
+          "new_predictions": 50
+        },
+        "sentences": {
+          "items": 10,
+          "new_predictions": 10
+        },
+        "own": {
+          "items": 20,
+          "new_predictions": 20
+        }
+      }
+    },
+    "qwen3-4b@whisper-turbo": {
+      "system": "qwen3-4b@whisper-turbo",
+      "environment": {
+        "timestamp": "2026-10-25T12:30:48+00:00",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "machine": "arm64",
+        "chip": "Apple M5",
+        "memory_gb": 17.2,
+        "macos": "26.6.2",
+        "python": "3.12.14",
+        "packages": {
+          "ldbench": "0.1.0",
+          "mlx": "0.32.4",
+          "mlx-lm": "0.32.2",
+          "mlx-whisper": "0.4.3",
+          "mlx-audio": "0.6.1",
+          "huggingface_hub": "2.3.0",
+          "pyarrow": "26.0.0",
+          "rapidfuzz": "3.14.6"
+        }
+      },
+      "models": {
+        "qwen3-4b": {
+          "repo": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+          "sha": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+          "kind": "mlx-lm",
+          "load_s": 2.29,
+          "peak_memory_gb": 2.606
+        }
+      },
+      "splits": {
+        "equations": {
+          "items": 50,
+          "new_predictions": 50
+        },
+        "sentences": {
+          "items": 10,
+          "new_predictions": 10
+        },
+        "own": {
+          "items": 20,
+          "new_predictions": 20
+        }
+      }
+    },
+    "qwen3-4b@oracle": {
+      "system": "qwen3-4b@oracle",
+      "environment": {
+        "timestamp": "2026-10-25T12:31:34+00:00",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "machine": "arm64",
+        "chip": "Apple M5",
+        "memory_gb": 17.2,
+        "macos": "26.6.2",
+        "python": "3.12.14",
+        "packages": {
+          "ldbench": "0.1.0",
+          "mlx": "0.32.4",
+          "mlx-lm": "0.32.2",
+          "mlx-whisper": "0.4.3",
+          "mlx-audio": "0.6.1",
+          "huggingface_hub": "2.3.0",
+          "pyarrow": "26.0.0",
+          "rapidfuzz": "3.14.6"
+        }
+      },
+      "models": {
+        "qwen3-4b": {
+          "repo": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+          "sha": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+          "kind": "mlx-lm",
+          "load_s": 1.56,
+          "peak_memory_gb": 2.606
+        }
+      },
+      "splits": {
+        "equations": {
+          "items": 50,
+          "new_predictions": 50
+        },
+        "sentences": {
+          "items": 10,
+          "new_predictions": 10
+        },
+        "own": {
+          "skipped": "split has no 'pronunciation' column"
+        }
+      }
+    },
+    "qwen2-audio@e2e": {
+      "system": "qwen2-audio@e2e",
+      "environment": {
+        "timestamp": "2026-10-25T12:32:06+00:00",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "machine": "arm64",
+        "chip": "Apple M5",
+        "memory_gb": 17.2,
+        "macos": "26.6.2",
+        "python": "3.12.14",
+        "packages": {
+          "ldbench": "0.1.0",
+          "mlx": "0.32.4",
+          "mlx-lm": "0.32.2",
+          "mlx-whisper": "0.4.3",
+          "mlx-audio": "0.6.1",
+          "huggingface_hub": "2.3.0",
+          "pyarrow": "26.0.0",
+          "rapidfuzz": "3.14.6"
+        }
+      },
+      "models": {
+        "qwen2-audio": {
+          "repo": "mlx-community/Qwen2-Audio-7B-Instruct-4bit",
+          "sha": "c65570002626f41b4dc08b7b54f42f99f3e82e7f",
+          "kind": "mlx-audio-chat",
+          "load_s": 4.2,
+          "peak_memory_gb": 7.563
+        }
+      },
+      "splits": {
+        "equations": {
+          "items": 50,
+          "new_predictions": 50
+        },
+        "sentences": {
+          "items": 10,
+          "new_predictions": 10
+        },
+        "own": {
+          "items": 20,
+          "new_predictions": 20
+        }
+      }
+    }
+  },
+  "models": {
+    "whisper-turbo": {
+      "repo": "mlx-community/whisper-large-v3-turbo",
+      "sha": "a4aaeec0636e6fef84abdcbe3544cb2bf7e9f6fb",
+      "kind": "mlx-whisper",
+      "load_s": 1.33,
+      "peak_memory_gb": 2.186
+    },
+    "paper-eq": {
+      "repo": "marsianin500/Qwen2.5-math-1.5B-instruct-equations_multilingual_mix",
+      "sha": "3a085dcbcdb489d4ecea62b2e7cc4257dcc62388",
+      "kind": "mlx-lm",
+      "load_s": 2.56,
+      "peak_memory_gb": 6.257
+    },
+    "paper-sent": {
+      "repo": "marsianin500/Qwen2.5-math-1.5B-instruct-sentences_eng_mix",
+      "sha": "94bc54a177a65621310b79ebda5f563810e1d934",
+      "kind": "mlx-lm",
+      "load_s": 0.89,
+      "peak_memory_gb": 6.259
+    },
+    "qwen3-4b": {
+      "repo": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+      "sha": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+      "kind": "mlx-lm",
+      "load_s": 1.56,
+      "peak_memory_gb": 2.606
+    },
+    "qwen2-audio": {
+      "repo": "mlx-community/Qwen2-Audio-7B-Instruct-4bit",
+      "sha": "c65570002626f41b4dc08b7b54f42f99f3e82e7f",
+      "kind": "mlx-audio-chat",
+      "load_s": 4.2,
+      "peak_memory_gb": 7.563
+    }
+  },
+  "gates": [
+    {
+      "system": "whisper-raw",
+      "check": "pipeline runs end to end",
+      "pass": true,
+      "detail": "equations: 50 items, 100.0% non-empty, sentences: 10 items, 100.0% non-empty, own: 20 items, 100.0% non-empty"
+    },
+    {
+      "system": "whisper-raw",
+      "check": "peak memory ≤ 12 GB",
+      "pass": true,
+      "detail": "2.19 GB"
+    },
+    {
+      "system": "whisper-raw",
+      "check": "p95 latency ≤ 3.0 s (equations)",
+      "pass": true,
+      "detail": "0.42 s"
+    },
+    {
+      "system": "paper@dataset-asr",
+      "check": "pipeline runs end to end",
+      "pass": true,
+      "detail": "equations: 50 items, 100.0% non-empty, sentences: 10 items, 100.0% non-empty"
+    },
+    {
+      "system": "paper@whisper-turbo",
+      "check": "pipeline runs end to end",
+      "pass": true,
+      "detail": "equations: 50 items, 100.0% non-empty, sentences: 10 items, 100.0% non-empty, own: 20 items, 100.0% non-empty"
+    },
+    {
+      "system": "paper@whisper-turbo",
+      "check": "peak memory ≤ 12 GB",
+      "pass": true,
+      "detail": "8.45 GB"
+    },
+    {
+      "system": "paper@whisper-turbo",
+      "check": "p95 latency ≤ 3.0 s (equations)",
+      "pass": true,
+      "detail": "1.25 s"
+    },
+    {
+      "system": "qwen3-4b@whisper-turbo",
+      "check": "pipeline runs end to end",
+      "pass": true,
+      "detail": "equations: 50 items, 98.0% non-empty, sentences: 10 items, 100.0% non-empty, own: 20 items, 100.0% non-empty"
+    },
+    {
+      "system": "qwen3-4b@whisper-turbo",
+      "check": "peak memory ≤ 12 GB",
+      "pass": true,
+      "detail": "4.79 GB"
+    },
+    {
+      "system": "qwen3-4b@whisper-turbo",
+      "check": "p95 latency ≤ 3.0 s (equations)",
+      "pass": true,
+      "detail": "1.20 s"
+    },
+    {
+      "system": "qwen3-4b@oracle",
+      "check": "pipeline runs end to end",
+      "pass": true,
+      "detail": "equations: 50 items, 100.0% non-empty, sentences: 10 items, 100.0% non-empty"
+    },
+    {
+      "system": "qwen2-audio@e2e",
+      "check": "pipeline runs end to end",
+      "pass": true,
+      "detail": "equations: 50 items, 100.0% non-empty, sentences: 10 items, 100.0% non-empty, own: 20 items, 100.0% non-empty"
+    },
+    {
+      "system": "qwen2-audio@e2e",
+      "check": "peak memory ≤ 12 GB",
+      "pass": true,
+      "detail": "7.56 GB"
+    },
+    {
+      "system": "qwen2-audio@e2e",
+      "check": "p95 latency ≤ 3.0 s (equations)",
+      "pass": true,
+      "detail": "2.04 s"
+    }
+  ]
+}

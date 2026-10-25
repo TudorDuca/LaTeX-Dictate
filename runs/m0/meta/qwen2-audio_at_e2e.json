@@ -1,0 +1,45 @@
+{
+  "system": "qwen2-audio@e2e",
+  "environment": {
+    "timestamp": "2026-10-25T12:32:06+00:00",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "chip": "Apple M5",
+    "memory_gb": 17.2,
+    "macos": "26.6.2",
+    "python": "3.12.14",
+    "packages": {
+      "ldbench": "0.1.0",
+      "mlx": "0.32.4",
+      "mlx-lm": "0.32.2",
+      "mlx-whisper": "0.4.3",
+      "mlx-audio": "0.6.1",
+      "huggingface_hub": "2.3.0",
+      "pyarrow": "26.0.0",
+      "rapidfuzz": "3.14.6"
+    }
+  },
+  "models": {
+    "qwen2-audio": {
+      "repo": "mlx-community/Qwen2-Audio-7B-Instruct-4bit",
+      "sha": "c65570002626f41b4dc08b7b54f42f99f3e82e7f",
+      "kind": "mlx-audio-chat",
+      "load_s": 4.2,
+      "peak_memory_gb": 7.563
+    }
+  },
+  "splits": {
+    "equations": {
+      "items": 50,
+      "new_predictions": 50
+    },
+    "sentences": {
+      "items": 10,
+      "new_predictions": 10
+    },
+    "own": {
+      "items": 20,
+      "new_predictions": 20
+    }
+  }
+}

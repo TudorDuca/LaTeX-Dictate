@@ -1,0 +1,50 @@
+{"id": "human_0000", "pred": "z^2-4z+3=0", "raw": "$z^2-4z+3=0$", "transcript": null, "asr_s": null, "gen_s": 1.5381, "total_s": 1.5381}
+{"id": "human_0001", "pred": "\\sin^2(x)+\\cos^2(x)", "raw": "\\[\\sin^2(x)+\\cos^2(x)\\]", "transcript": null, "asr_s": null, "gen_s": 1.5907, "total_s": 1.5907}
+{"id": "human_0002", "pred": "\\sigma^2_x + \\mu^2_y", "raw": "$\\sigma^2_x + \\mu^2_y$", "transcript": null, "asr_s": null, "gen_s": 1.5623, "total_s": 1.5623}
+{"id": "human_0003", "pred": "\\Gamma瓦", "raw": "\\Gamma瓦", "transcript": null, "asr_s": null, "gen_s": 1.2004, "total_s": 1.2004}
+{"id": "human_0004", "pred": "-z^2+1", "raw": "$-z^2+1$", "transcript": null, "asr_s": null, "gen_s": 1.3801, "total_s": 1.3801}
+{"id": "human_0005", "pred": "\\text{absolute value of h sub c sub s}", "raw": "\\text{absolute value of h sub c sub s}", "transcript": null, "asr_s": null, "gen_s": 1.5262, "total_s": 1.5262}
+{"id": "human_0006", "pred": "y^2 = x^3", "raw": "y^2 = x^3", "transcript": null, "asr_s": null, "gen_s": 1.3476, "total_s": 1.3476}
+{"id": "human_0007", "pred": "- r sub z of alpha equals r sub z of negative alpha", "raw": "- r sub z of alpha equals r sub z of negative alpha", "transcript": null, "asr_s": null, "gen_s": 1.5621, "total_s": 1.5621}
+{"id": "human_0008", "pred": "y = x^2 - 4x + 3", "raw": "y = x^2 - 4x + 3", "transcript": null, "asr_s": null, "gen_s": 1.5189, "total_s": 1.5189}
+{"id": "human_0009", "pred": "3x+2y=18", "raw": "3x+2y=18", "transcript": null, "asr_s": null, "gen_s": 1.3857, "total_s": 1.3857}
+{"id": "human_0010", "pred": "R^2", "raw": "R^2", "transcript": null, "asr_s": null, "gen_s": 1.1933, "total_s": 1.1933}
+{"id": "human_0011", "pred": "y = c1 + c2 * t + t^3", "raw": "y = c1 + c2 * t + t^3", "transcript": null, "asr_s": null, "gen_s": 1.5776, "total_s": 1.5776}
+{"id": "human_0012", "pred": "y = x^2", "raw": "y = x^2", "transcript": null, "asr_s": null, "gen_s": 1.2551, "total_s": 1.2551}
+{"id": "human_0013", "pred": "\\tan^2\\theta+1=0", "raw": "\\[\\tan^2\\theta+1=0\\]", "transcript": null, "asr_s": null, "gen_s": 1.544, "total_s": 1.544}
+{"id": "human_0014", "pred": "y=x", "raw": "y=x", "transcript": null, "asr_s": null, "gen_s": 1.1442, "total_s": 1.1442}
+{"id": "human_0015", "pred": "\\alpha + \\beta = \\gamma", "raw": "$\\alpha + \\beta = \\gamma$", "transcript": null, "asr_s": null, "gen_s": 1.3989, "total_s": 1.3989}
+{"id": "human_0016", "pred": "\\lim_{x\\to\\infty}\\frac{4x^2}{\\sqrt x}", "raw": "$\\lim_{x\\to\\infty}\\frac{4x^2}{\\sqrt x}$", "transcript": null, "asr_s": null, "gen_s": 1.8242, "total_s": 1.8242}
+{"id": "human_0017", "pred": "z = 6 - 9", "raw": "$z = 6 - 9$", "transcript": null, "asr_s": null, "gen_s": 1.3947, "total_s": 1.3947}
+{"id": "human_0018", "pred": "S_j^2=1", "raw": "$S_j^2=1$", "transcript": null, "asr_s": null, "gen_s": 1.352, "total_s": 1.352}
+{"id": "human_0019", "pred": "\\frac{\\mu^2}{t}", "raw": "$\\frac{\\mu^2}{t}$", "transcript": null, "asr_s": null, "gen_s": 1.401, "total_s": 1.401}
+{"id": "human_0020", "pred": "y = x^2", "raw": "y = x^2", "transcript": null, "asr_s": null, "gen_s": 1.2544, "total_s": 1.2544}
+{"id": "human_0021", "pred": "\\mu = \\frac{\\sum_{i=1}^{n} x_i}{n}", "raw": "$\\mu = \\frac{\\sum_{i=1}^{n} x_i}{n}$", "transcript": null, "asr_s": null, "gen_s": 1.7885, "total_s": 1.7885}
+{"id": "human_0022", "pred": "b - 1 = 2 - 1", "raw": "b - 1 = 2 - 1", "transcript": null, "asr_s": null, "gen_s": 1.4452, "total_s": 1.4452}
+{"id": "human_0023", "pred": "\\dfrac{dy}{dx}=\\dfrac{1}{2y+3}", "raw": "$\\dfrac{dy}{dx}=\\dfrac{1}{2y+3}$", "transcript": null, "asr_s": null, "gen_s": 1.7954, "total_s": 1.7954}
+{"id": "human_0024", "pred": "\\sum_{i=1}^{n}\\frac{1}{i}", "raw": "$\\sum_{i=1}^{n}\\frac{1}{i}$", "transcript": null, "asr_s": null, "gen_s": 1.6453, "total_s": 1.6453}
+{"id": "human_0025", "pred": "\\text{e}^{i\\pi}", "raw": "\\text{e}^{i\\pi}", "transcript": null, "asr_s": null, "gen_s": 1.442, "total_s": 1.442}
+{"id": "human_0026", "pred": "\\textit{a supercript 2 f of x is less than or equal to m supercript 0 times f of x}", "raw": "\\textit{a supercript 2 f of x is less than or equal to m supercript 0 times f of x}", "transcript": null, "asr_s": null, "gen_s": 2.1109, "total_s": 2.1109}
+{"id": "human_0027", "pred": "2n+1", "raw": "$2n+1$", "transcript": null, "asr_s": null, "gen_s": 1.3138, "total_s": 1.3138}
+{"id": "human_0028", "pred": "4x^4-12x^2+9=0", "raw": "$4x^4-12x^2+9=0$", "transcript": null, "asr_s": null, "gen_s": 1.6713, "total_s": 1.6713}
+{"id": "human_0029", "pred": "\\int x^2 d x=\\frac{1}{3} x^3+C", "raw": "$\\int x^2 d x=\\frac{1}{3} x^3+C$", "transcript": null, "asr_s": null, "gen_s": 1.781, "total_s": 1.781}
+{"id": "human_0030", "pred": "\\frac{1}{2} + 3 = 4.5", "raw": "$\\frac{1}{2} + 3 = 4.5$", "transcript": null, "asr_s": null, "gen_s": 1.6576, "total_s": 1.6576}
+{"id": "human_0031", "pred": "\\frac{1}{2} + \\frac{1}{3} = \\frac{5}{6}", "raw": "$\\frac{1}{2} + \\frac{1}{3} = \\frac{5}{6}$", "transcript": null, "asr_s": null, "gen_s": 1.9159, "total_s": 1.9159}
+{"id": "human_0032", "pred": "\\cos(x)=1", "raw": "\\[\\cos(x)=1\\]", "transcript": null, "asr_s": null, "gen_s": 1.3817, "total_s": 1.3817}
+{"id": "human_0033", "pred": "\\frac{1}{x-6}=2", "raw": "$\\frac{1}{x-6}=2$", "transcript": null, "asr_s": null, "gen_s": 1.4884, "total_s": 1.4884}
+{"id": "human_0034", "pred": "y = x^2 + 2x + 1", "raw": "y = x^2 + 2x + 1", "transcript": null, "asr_s": null, "gen_s": 1.5332, "total_s": 1.5332}
+{"id": "human_0035", "pred": "\\subi{1+2+3+...+n}", "raw": "\\subi{1+2+3+...+n}", "transcript": null, "asr_s": null, "gen_s": 1.6407, "total_s": 1.6407}
+{"id": "human_0036", "pred": "y = x^2", "raw": "y = x^2", "transcript": null, "asr_s": null, "gen_s": 1.335, "total_s": 1.335}
+{"id": "human_0037", "pred": "\\lim_{x\\to 5}\\frac{2}{x-5}", "raw": "\\lim_{x\\to 5}\\frac{2}{x-5}", "transcript": null, "asr_s": null, "gen_s": 1.7208, "total_s": 1.7208}
+{"id": "human_0038", "pred": "E_{\\infty}", "raw": "$E_{\\infty}$", "transcript": null, "asr_s": null, "gen_s": 1.3784, "total_s": 1.3784}
+{"id": "human_0039", "pred": "-1 + \\sqrt{2}", "raw": "$-1 + \\sqrt{2}$", "transcript": null, "asr_s": null, "gen_s": 1.4499, "total_s": 1.4499}
+{"id": "tts_0000", "pred": "47.66+/-1", "raw": "$47.66+/-1$", "transcript": null, "asr_s": null, "gen_s": 1.4611, "total_s": 1.4611}
+{"id": "tts_0001", "pred": "\\frac{1}{2} + 3 = 4", "raw": "$\\frac{1}{2} + 3 = 4$", "transcript": null, "asr_s": null, "gen_s": 1.6104, "total_s": 1.6104}
+{"id": "tts_0002", "pred": "2+3=5", "raw": "$2+3=5$", "transcript": null, "asr_s": null, "gen_s": 1.3488, "total_s": 1.3488}
+{"id": "tts_0003", "pred": "\\sqrt{2}", "raw": "$\\sqrt{2}$", "transcript": null, "asr_s": null, "gen_s": 1.2876, "total_s": 1.2876}
+{"id": "tts_0004", "pred": "\\divergence(f'(x))", "raw": "$\\divergence(f'(x))$", "transcript": null, "asr_s": null, "gen_s": 1.4385, "total_s": 1.4385}
+{"id": "tts_0005", "pred": "\\frac{e^x}{x}", "raw": "\\frac{e^x}{x}", "transcript": null, "asr_s": null, "gen_s": 1.435, "total_s": 1.435}
+{"id": "tts_0006", "pred": "g_e=2m\\bar{h}^2\\left(\\frac{3}{2}\\right)^{s-1}T_{3/2}", "raw": "$g_e=2m\\bar{h}^2\\left(\\frac{3}{2}\\right)^{s-1}T_{3/2}$", "transcript": null, "asr_s": null, "gen_s": 2.3685, "total_s": 2.3685}
+{"id": "tts_0007", "pred": "y = x^2 + 2x + 1", "raw": "$y = x^2 + 2x + 1$", "transcript": null, "asr_s": null, "gen_s": 1.6104, "total_s": 1.6104}
+{"id": "tts_0008", "pred": "T = \\gamma \\tau + \\gamma \\beta x + \\gamma \\beta x^2 + \\beta^2 c^2 \\tau", "raw": "$T = \\gamma \\tau + \\gamma \\beta x + \\gamma \\beta x^2 + \\beta^2 c^2 \\tau$", "transcript": null, "asr_s": null, "gen_s": 2.2593, "total_s": 2.2593}
+{"id": "tts_0009", "pred": "\\thetasubf", "raw": "\\thetasubf", "transcript": null, "asr_s": null, "gen_s": 1.2801, "total_s": 1.2801}

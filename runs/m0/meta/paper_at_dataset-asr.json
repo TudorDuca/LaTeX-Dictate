@@ -1,0 +1,51 @@
+{
+  "system": "paper@dataset-asr",
+  "environment": {
+    "timestamp": "2026-10-25T12:28:03+00:00",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "chip": "Apple M5",
+    "memory_gb": 17.2,
+    "macos": "26.6.2",
+    "python": "3.12.14",
+    "packages": {
+      "ldbench": "0.1.0",
+      "mlx": "0.32.4",
+      "mlx-lm": "0.32.2",
+      "mlx-whisper": "0.4.3",
+      "mlx-audio": "0.6.1",
+      "huggingface_hub": "2.3.0",
+      "pyarrow": "26.0.0",
+      "rapidfuzz": "3.14.6"
+    }
+  },
+  "models": {
+    "paper-eq": {
+      "repo": "marsianin500/Qwen2.5-math-1.5B-instruct-equations_multilingual_mix",
+      "sha": "3a085dcbcdb489d4ecea62b2e7cc4257dcc62388",
+      "kind": "mlx-lm",
+      "load_s": 3.27,
+      "peak_memory_gb": 3.136
+    },
+    "paper-sent": {
+      "repo": "marsianin500/Qwen2.5-math-1.5B-instruct-sentences_eng_mix",
+      "sha": "94bc54a177a65621310b79ebda5f563810e1d934",
+      "kind": "mlx-lm",
+      "load_s": 1.28,
+      "peak_memory_gb": 6.259
+    }
+  },
+  "splits": {
+    "equations": {
+      "items": 50,
+      "new_predictions": 50
+    },
+    "sentences": {
+      "items": 10,
+      "new_predictions": 10
+    },
+    "own": {
+      "skipped": "split has no 'whisper_text' column"
+    }
+  }
+}

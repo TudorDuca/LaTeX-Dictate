@@ -1,0 +1,20 @@
+{"id": "f01", "text": "x squared plus y squared equals z squared.", "sec": 0.3505}
+{"id": "f02", "text": "A divided by B plus C.", "sec": 0.3446}
+{"id": "f03", "text": "A plus B divided by C.", "sec": 0.3489}
+{"id": "f04", "text": "e to the i pi plus 1 equals 0.", "sec": 0.3515}
+{"id": "f05", "text": "Square root of x squared plus 1.", "sec": 0.3453}
+{"id": "f06", "text": "sine squared of theta plus cosine squared of theta equals 1.", "sec": 0.3585}
+{"id": "f07", "text": "f prime of x is equal to the limit when h goes to 0 of f of a x plus h minus f of x divided by h.", "sec": 0.4176}
+{"id": "f08", "text": "The sum from i equals 1 to n of i equals to n times n plus 1 divided by 2.", "sec": 0.3892}
+{"id": "f09", "text": "The integral from 0 to infinity of e to the minus x squared dx is equal to square root of pi over 2.", "sec": 0.4008}
+{"id": "f10", "text": "n choose k is equal to n factorial divided by k factorial times n minus k factorial.", "sec": 0.3793}
+{"id": "f11", "text": "The determinant of a minus lambda i is equal to zero.", "sec": 0.3619}
+{"id": "f12", "text": "P of A given B is equal to P of B given A times P of A divided by P of B.", "sec": 0.4063}
+{"id": "f13", "text": "E equals the sum over x of x times P .", "sec": 0.3566}
+{"id": "f14", "text": "The absolute value of x minus a less than delta implies the absolute value of f of x minus f of a less than epsilon.", "sec": 0.4066}
+{"id": "f15", "text": "Divergence of E equals rho over epsilon zero.", "sec": 0.3544}
+{"id": "f16", "text": "The second partial derivative of u with respect to t equals c squared times the Laplacian of u.", "sec": 0.393}
+{"id": "f17", "text": "2 norm of x equals the square root of the sum from i equals 1 to n of xi squared.", "sec": 0.3912}
+{"id": "f18", "text": "Beta hat equals x transpose times x inverse times x transpose y.", "sec": 0.3625}
+{"id": "f19", "text": "The matrix ABCD inverse equals 1 over AD minus BC times the matrix D minus B minus CA.", "sec": 0.3861}
+{"id": "f20", "text": "the set of all x in the real numbers such that x squared is less than 2.", "sec": 0.3787}
