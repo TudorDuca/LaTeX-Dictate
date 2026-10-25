@@ -197,7 +197,7 @@
           "latency_p95_s": 0.990275,
           "latency_scope": "text step only (transcript from dataset)",
           "peak_memory_gb": 6.26,
-          "load_s": 2.6
+          "load_s": 1.3
         },
         "paper@whisper-turbo": {
           "status": "ok",
@@ -268,7 +268,7 @@
           "latency_p95_s": 1.2022749999999998,
           "latency_scope": "end of audio to LaTeX",
           "peak_memory_gb": 8.44,
-          "load_s": 3.9
+          "load_s": 2.6
         },
         "qwen3-4b@whisper-turbo": {
           "status": "ok",
@@ -338,8 +338,8 @@
           "latency_p50_s": 0.8237,
           "latency_p95_s": 1.204455,
           "latency_scope": "end of audio to LaTeX",
-          "peak_memory_gb": 4.79,
-          "load_s": 2.9
+          "peak_memory_gb": 8.07,
+          "load_s": 3.6
         },
         "qwen3-4b@oracle": {
           "status": "ok",
@@ -409,8 +409,8 @@
           "latency_p50_s": 0.42495,
           "latency_p95_s": 0.6587999999999998,
           "latency_scope": "text step only (transcript from dataset)",
-          "peak_memory_gb": 2.61,
-          "load_s": 1.6
+          "peak_memory_gb": 5.89,
+          "load_s": 2.2
         },
         "qwen2-audio@e2e": {
           "status": "ok",
@@ -482,6 +482,12 @@
           "latency_scope": "end of audio to LaTeX",
           "peak_memory_gb": 7.56,
           "load_s": 4.2
+        },
+        "split@dataset-asr": {
+          "status": "skipped: no text model for task 'equations'"
+        },
+        "split@whisper-turbo": {
+          "status": "skipped: no text model for task 'equations'"
         }
       }
     },
@@ -575,6 +581,23 @@
               "n_by_group": {
                 "human": 10
               }
+            },
+            "prose": {
+              "cer": 0.266728624535316,
+              "capped_cer": 0.20446096654275092,
+              "ter": 0.4262295081967213,
+              "exact": 0.0,
+              "cer_ci": [
+                0.14351851851851852,
+                0.550471063257066
+              ],
+              "median_item_cer": 0.24531184155077962,
+              "cer_by_group": {
+                "human": 0.266728624535316
+              },
+              "n_by_group": {
+                "human": 10
+              }
             }
           },
           "headline": {
@@ -653,6 +676,23 @@
               "median_item_cer": 0.4660633484162896,
               "cer_by_group": {
                 "human": 0.6044776119402985
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            },
+            "prose": {
+              "cer": 0.09944237918215613,
+              "capped_cer": 0.09944237918215613,
+              "ter": 0.12568306010928962,
+              "exact": 0.3,
+              "cer_ci": [
+                0.05123513266239707,
+                0.15886524822695036
+              ],
+              "median_item_cer": 0.057320959880014996,
+              "cer_by_group": {
+                "human": 0.09944237918215613
               },
               "n_by_group": {
                 "human": 10
@@ -739,6 +779,23 @@
               "n_by_group": {
                 "human": 10
               }
+            },
+            "prose": {
+              "cer": 0.17565055762081785,
+              "capped_cer": 0.17565055762081785,
+              "ter": 0.2185792349726776,
+              "exact": 0.3,
+              "cer_ci": [
+                0.03851540616246499,
+                0.3535200605601817
+              ],
+              "median_item_cer": 0.05075493140677003,
+              "cer_by_group": {
+                "human": 0.17565055762081785
+              },
+              "n_by_group": {
+                "human": 10
+              }
             }
           },
           "headline": {
@@ -821,6 +878,23 @@
               "n_by_group": {
                 "human": 10
               }
+            },
+            "prose": {
+              "cer": 0.12639405204460966,
+              "capped_cer": 0.120817843866171,
+              "ter": 0.16393442622950818,
+              "exact": 0.2,
+              "cer_ci": [
+                0.05831265508684864,
+                0.22189781021897811
+              ],
+              "median_item_cer": 0.06871970345024236,
+              "cer_by_group": {
+                "human": 0.12639405204460966
+              },
+              "n_by_group": {
+                "human": 10
+              }
             }
           },
           "headline": {
@@ -861,8 +935,8 @@
           "latency_p50_s": 1.0784,
           "latency_p95_s": 1.66062,
           "latency_scope": "end of audio to LaTeX",
-          "peak_memory_gb": 4.79,
-          "load_s": 2.9
+          "peak_memory_gb": 8.07,
+          "load_s": 3.6
         },
         "qwen3-4b@oracle": {
           "status": "ok",
@@ -899,6 +973,23 @@
               "median_item_cer": 0.0,
               "cer_by_group": {
                 "human": 0.39552238805970147
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            },
+            "prose": {
+              "cer": 0.10037174721189591,
+              "capped_cer": 0.08643122676579926,
+              "ter": 0.09836065573770492,
+              "exact": 0.6,
+              "cer_ci": [
+                0.012229539040451553,
+                0.22727272727272727
+              ],
+              "median_item_cer": 0.0,
+              "cer_by_group": {
+                "human": 0.10037174721189591
               },
               "n_by_group": {
                 "human": 10
@@ -943,8 +1034,8 @@
           "latency_p50_s": 0.7041999999999999,
           "latency_p95_s": 1.18102,
           "latency_scope": "text step only (transcript from dataset)",
-          "peak_memory_gb": 2.61,
-          "load_s": 1.6
+          "peak_memory_gb": 5.89,
+          "load_s": 2.2
         },
         "qwen2-audio@e2e": {
           "status": "ok",
@@ -981,6 +1072,23 @@
               "median_item_cer": 0.95,
               "cer_by_group": {
                 "human": 1.2388059701492538
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            },
+            "prose": {
+              "cer": 0.24721189591078066,
+              "capped_cer": 0.23698884758364314,
+              "ter": 0.30601092896174864,
+              "exact": 0.0,
+              "cer_ci": [
+                0.16309412861137,
+                0.36475869809203143
+              ],
+              "median_item_cer": 0.250804505229284,
+              "cer_by_group": {
+                "human": 0.24721189591078066
               },
               "n_by_group": {
                 "human": 10
@@ -1027,6 +1135,204 @@
           "latency_scope": "end of audio to LaTeX",
           "peak_memory_gb": 7.56,
           "load_s": 4.2
+        },
+        "split@dataset-asr": {
+          "status": "ok",
+          "n": 10,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "full": {
+              "cer": 0.2712133227597145,
+              "capped_cer": 0.2712133227597145,
+              "ter": 0.315,
+              "exact": 0.0,
+              "cer_ci": [
+                0.18446601941747573,
+                0.37630402384500744
+              ],
+              "median_item_cer": 0.2382494918699187,
+              "cer_by_group": {
+                "human": 0.2712133227597145
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            },
+            "formulas": {
+              "cer": 1.3208955223880596,
+              "capped_cer": 0.7164179104477612,
+              "ter": 1.2941176470588236,
+              "exact": 0.0,
+              "cer_ci": [
+                0.7606837606837606,
+                2.8
+              ],
+              "median_item_cer": 1.9230769230769231,
+              "cer_by_group": {
+                "human": 1.3208955223880596
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            },
+            "prose": {
+              "cer": 0.19609665427509293,
+              "capped_cer": 0.17936802973977695,
+              "ter": 0.22950819672131148,
+              "exact": 0.1,
+              "cer_ci": [
+                0.08652094717668488,
+                0.341227125941873
+              ],
+              "median_item_cer": 0.1759606373008435,
+              "cer_by_group": {
+                "human": 0.19609665427509293
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            }
+          },
+          "headline": {
+            "cer": 1.3208955223880596,
+            "capped_cer": 0.7164179104477612,
+            "ter": 1.2941176470588236,
+            "exact": 0.0,
+            "cer_ci": [
+              0.7606837606837606,
+              2.8
+            ],
+            "median_item_cer": 1.9230769230769231,
+            "cer_by_group": {
+              "human": 1.3208955223880596
+            },
+            "n_by_group": {
+              "human": 10
+            }
+          },
+          "headline_vs_normalized_ref": {
+            "cer": 1.2416107382550337,
+            "capped_cer": 0.7449664429530202,
+            "ter": 1.2941176470588236,
+            "exact": 0.0,
+            "cer_ci": [
+              0.7692307692307693,
+              2.386138613861386
+            ],
+            "median_item_cer": 1.9230769230769231,
+            "cer_by_group": {
+              "human": 1.2416107382550337
+            },
+            "n_by_group": {
+              "human": 10
+            }
+          },
+          "render_rate": 1.0,
+          "latency_p50_s": 1.5183499999999999,
+          "latency_p95_s": 2.6142349999999994,
+          "latency_scope": "text step only (transcript from dataset)",
+          "peak_memory_gb": 12.14,
+          "load_s": 3.5
+        },
+        "split@whisper-turbo": {
+          "status": "ok",
+          "n": 10,
+          "coverage": 1.0,
+          "nonempty": 1.0,
+          "views": {
+            "full": {
+              "cer": 0.24425059476605868,
+              "capped_cer": 0.24425059476605868,
+              "ter": 0.29,
+              "exact": 0.0,
+              "cer_ci": [
+                0.16311475409836065,
+                0.3451635351426583
+              ],
+              "median_item_cer": 0.2366815476190476,
+              "cer_by_group": {
+                "human": 0.24425059476605868
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            },
+            "formulas": {
+              "cer": 1.208955223880597,
+              "capped_cer": 0.7164179104477612,
+              "ter": 1.1764705882352942,
+              "exact": 0.0,
+              "cer_ci": [
+                0.7520661157024794,
+                2.4
+              ],
+              "median_item_cer": 1.9230769230769231,
+              "cer_by_group": {
+                "human": 1.208955223880597
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            },
+            "prose": {
+              "cer": 0.19052044609665428,
+              "capped_cer": 0.1737918215613383,
+              "ter": 0.2185792349726776,
+              "exact": 0.1,
+              "cer_ci": [
+                0.07142857142857142,
+                0.34530706836616454
+              ],
+              "median_item_cer": 0.13987816307403936,
+              "cer_by_group": {
+                "human": 0.19052044609665428
+              },
+              "n_by_group": {
+                "human": 10
+              }
+            }
+          },
+          "headline": {
+            "cer": 1.208955223880597,
+            "capped_cer": 0.7164179104477612,
+            "ter": 1.1764705882352942,
+            "exact": 0.0,
+            "cer_ci": [
+              0.7520661157024794,
+              2.4
+            ],
+            "median_item_cer": 1.9230769230769231,
+            "cer_by_group": {
+              "human": 1.208955223880597
+            },
+            "n_by_group": {
+              "human": 10
+            }
+          },
+          "headline_vs_normalized_ref": {
+            "cer": 1.1409395973154361,
+            "capped_cer": 0.7449664429530202,
+            "ter": 1.1764705882352942,
+            "exact": 0.0,
+            "cer_ci": [
+              0.7596899224806202,
+              2.0277777777777777
+            ],
+            "median_item_cer": 1.9230769230769231,
+            "cer_by_group": {
+              "human": 1.1409395973154361
+            },
+            "n_by_group": {
+              "human": 10
+            }
+          },
+          "render_rate": 1.0,
+          "latency_p50_s": 1.95925,
+          "latency_p95_s": 2.9854499999999993,
+          "latency_scope": "end of audio to LaTeX",
+          "peak_memory_gb": 14.33,
+          "load_s": 4.9
         }
       }
     },
@@ -1174,7 +1480,7 @@
           "latency_p95_s": 1.2484100000000007,
           "latency_scope": "end of audio to LaTeX",
           "peak_memory_gb": 8.44,
-          "load_s": 3.9
+          "load_s": 2.6
         },
         "qwen3-4b@whisper-turbo": {
           "status": "ok",
@@ -1238,8 +1544,8 @@
           "latency_p50_s": 0.8887499999999999,
           "latency_p95_s": 1.1761700000000002,
           "latency_scope": "end of audio to LaTeX",
-          "peak_memory_gb": 4.79,
-          "load_s": 2.9
+          "peak_memory_gb": 8.07,
+          "load_s": 3.6
         },
         "qwen3-4b@oracle": {
           "status": "skipped: split has no 'pronunciation' column"
@@ -1308,6 +1614,12 @@
           "latency_scope": "end of audio to LaTeX",
           "peak_memory_gb": 7.56,
           "load_s": 4.2
+        },
+        "split@dataset-asr": {
+          "status": "skipped: split has no 'whisper_text' column"
+        },
+        "split@whisper-turbo": {
+          "status": "skipped: no text model for task 'equations'"
         }
       }
     }
@@ -1594,6 +1906,106 @@
           "new_predictions": 20
         }
       }
+    },
+    "split@dataset-asr": {
+      "system": "split@dataset-asr",
+      "environment": {
+        "timestamp": "2026-10-25T13:49:32+00:00",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "machine": "arm64",
+        "chip": "Apple M5",
+        "memory_gb": 17.2,
+        "macos": "26.6.2",
+        "python": "3.12.14",
+        "packages": {
+          "ldbench": "0.1.0",
+          "mlx": "0.32.4",
+          "mlx-lm": "0.32.2",
+          "mlx-whisper": "0.4.3",
+          "mlx-audio": "0.6.1",
+          "huggingface_hub": "2.3.0",
+          "pyarrow": "26.0.0",
+          "rapidfuzz": "3.14.6"
+        }
+      },
+      "models": {
+        "qwen3-4b": {
+          "repo": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+          "sha": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+          "kind": "mlx-lm",
+          "load_s": 2.5,
+          "peak_memory_gb": 5.888
+        },
+        "paper-eq": {
+          "repo": "marsianin500/Qwen2.5-math-1.5B-instruct-equations_multilingual_mix",
+          "sha": "3a085dcbcdb489d4ecea62b2e7cc4257dcc62388",
+          "kind": "mlx-lm",
+          "load_s": 1.03,
+          "peak_memory_gb": 5.888
+        }
+      },
+      "splits": {
+        "equations": {
+          "skipped": "no text model for task 'equations'"
+        },
+        "sentences": {
+          "items": 10,
+          "new_predictions": 10
+        },
+        "own": {
+          "skipped": "split has no 'whisper_text' column"
+        }
+      }
+    },
+    "split@whisper-turbo": {
+      "system": "split@whisper-turbo",
+      "environment": {
+        "timestamp": "2026-10-25T13:50:08+00:00",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "machine": "arm64",
+        "chip": "Apple M5",
+        "memory_gb": 17.2,
+        "macos": "26.6.2",
+        "python": "3.12.14",
+        "packages": {
+          "ldbench": "0.1.0",
+          "mlx": "0.32.4",
+          "mlx-lm": "0.32.2",
+          "mlx-whisper": "0.4.3",
+          "mlx-audio": "0.6.1",
+          "huggingface_hub": "2.3.0",
+          "pyarrow": "26.0.0",
+          "rapidfuzz": "3.14.6"
+        }
+      },
+      "models": {
+        "qwen3-4b": {
+          "repo": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+          "sha": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+          "kind": "mlx-lm",
+          "load_s": 2.24,
+          "peak_memory_gb": 5.885
+        },
+        "paper-eq": {
+          "repo": "marsianin500/Qwen2.5-math-1.5B-instruct-equations_multilingual_mix",
+          "sha": "3a085dcbcdb489d4ecea62b2e7cc4257dcc62388",
+          "kind": "mlx-lm",
+          "load_s": 1.29,
+          "peak_memory_gb": 5.885
+        }
+      },
+      "splits": {
+        "equations": {
+          "skipped": "no text model for task 'equations'"
+        },
+        "sentences": {
+          "items": 10,
+          "new_predictions": 10
+        },
+        "own": {
+          "skipped": "no text model for task 'equations'"
+        }
+      }
     }
   },
   "models": {
@@ -1608,7 +2020,7 @@
       "repo": "marsianin500/Qwen2.5-math-1.5B-instruct-equations_multilingual_mix",
       "sha": "3a085dcbcdb489d4ecea62b2e7cc4257dcc62388",
       "kind": "mlx-lm",
-      "load_s": 2.56,
+      "load_s": 1.29,
       "peak_memory_gb": 6.257
     },
     "paper-sent": {
@@ -1622,8 +2034,8 @@
       "repo": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
       "sha": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
       "kind": "mlx-lm",
-      "load_s": 1.56,
-      "peak_memory_gb": 2.606
+      "load_s": 2.24,
+      "peak_memory_gb": 5.888
     },
     "qwen2-audio": {
       "repo": "mlx-community/Qwen2-Audio-7B-Instruct-4bit",
@@ -1686,7 +2098,7 @@
       "system": "qwen3-4b@whisper-turbo",
       "check": "peak memory ≤ 12 GB",
       "pass": true,
-      "detail": "4.79 GB"
+      "detail": "8.07 GB"
     },
     {
       "system": "qwen3-4b@whisper-turbo",
@@ -1717,6 +2129,24 @@
       "check": "p95 latency ≤ 3.0 s (equations)",
       "pass": true,
       "detail": "2.04 s"
+    },
+    {
+      "system": "split@dataset-asr",
+      "check": "pipeline runs end to end",
+      "pass": true,
+      "detail": "sentences: 10 items, 100.0% non-empty"
+    },
+    {
+      "system": "split@whisper-turbo",
+      "check": "pipeline runs end to end",
+      "pass": true,
+      "detail": "sentences: 10 items, 100.0% non-empty"
+    },
+    {
+      "system": "split@whisper-turbo",
+      "check": "peak memory ≤ 12 GB",
+      "pass": false,
+      "detail": "14.33 GB"
     }
   ]
 }

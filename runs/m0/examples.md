@@ -101,6 +101,9 @@
   - transcript: Then we made an edge along the segment AB because none of the edges from A sub 0 to B sub 1 cross it.
 - **qwen3-4b@oracle:** `Then we may add an edge along the segment line segment $ab$, because none of the edges from $A_0$ to $B_1$ cross it.`
 - **qwen2-audio@e2e:** `The sentence is: Then we may take an $h$ along the segment $a$ because none of the edges from $a$ sub $0$ to $b$ sub $1$ cross it.`
+- **split@dataset-asr:** `Then we made an edge along the segment $A\setminus B$ because none of the edges from $A_{0}$ to $b_{1}$ cross it.`
+- **split@whisper-turbo:** `Then we made an edge along the segment $A\setminus B$ because none of the edges from $A_{0}$ to $b_{1}$ cross it.`
+  - transcript: Then we made an edge along the segment AB because none of the edges from A sub 0 to B sub 1 cross it.
 
 ### human_0006 (human)
 
@@ -115,6 +118,9 @@
   - transcript: Both of these expressions use l equals 2 in prop.
 - **qwen3-4b@oracle:** `Both of these expressions use $l = 2$ in Prop.`
 - **qwen2-audio@e2e:** `The sentence is: Both of these expressions use $l = 2$ in prop.`
+- **split@dataset-asr:** `Both of these expressions use $\ell$ equals $2\pi$ in prop.`
+- **split@whisper-turbo:** `Both of these expressions use $\ell$ equals $2\pi$ in prop.`
+  - transcript: Both of these expressions use l equals 2 in prop.
 
 ### human_0004 (human)
 
@@ -129,6 +135,9 @@
   - transcript: An understanding of the conformal weights equation of the graviton-photon dilation perturbations solved for in this paper is of crucial importance to the eventual goal of constructing a holographic dual to our customizable anti-desiter two-times two-dimensional sphere book.
 - **qwen3-4b@oracle:** `An understanding of the conformal weights equation of the graviton/photon/dilaton perturbations, solved for in this paper, is of crucial importance to the eventual goal of constructing a holographic dual to our customizable anti-de Sitter two-time two-dimensional sphere bulk.`
 - **qwen2-audio@e2e:** `An understanding of the conformal weights equation of the gravitational photogeneration perturbation solved for in this paper is of crucial importance to the eventual goal of constructing a holographic dual to our customizable anti-de Sitter two times two dimensional sphere book.`
+- **split@dataset-asr:** `An understanding of the $W_{\Delta}$ of the graviton-photon dilation perturbations solved for in this paper is of crucial importance to the eventual goal of constructing a holographic dual to our customizable anti-de-sitter 2x2 dimensional sphere book.`
+- **split@whisper-turbo:** `An understanding of the $W_{\Delta}$ of the graviton-photon dilation perturbations solved for in this paper is of crucial importance to the eventual goal of constructing a holographic dual to our customizable anti-desiter two-times two-dimensional sphere book.`
+  - transcript: An understanding of the conformal weights equation of the graviton-photon dilation perturbations solved for in this paper is of crucial importance to the eventual goal of constructing a holographic dual to our customizable anti-desiter two-times two-dimensional sphere book.
 
 ### human_0003 (human)
 
@@ -143,6 +152,9 @@
   - transcript: While the C, D, Fs are well scaled using the scaling variable V tilde, the statistical precision is infuriasing to discuss whether the form of the distribution function deviates from the classical theory.
 - **qwen3-4b@oracle:** `Although the CDFs are well scaled using the scaling variable $\tilde{v}$, the statistical precision is insufficient to discuss whether the form of the distribution function deviates from the classical theory.`
 - **qwen2-audio@e2e:** `Through the capital $C$, capital $G$, capital $E_{\text{fs}}$, and scaled using the scaling variable $V_{\text{chill}}$, the statistical precision is influenced to discuss whether the form of the distribution function differs from the classical theory.`
+- **split@dataset-asr:** `While through the capital $\mathcal C$, capital $\mathcal D$, capital $\frac{1}{\sqrt{2}}$ are well scaled using the scaling variable $\tilde{V}$, the statistical precision is infuriacent to discuss whether the form of the distribution function deviates from the classical theory.`
+- **split@whisper-turbo:** `While the $C(\cdot),D(\cdot)$ are well scaled using the scaling variable $\tilde{V}$, the statistical precision is infuriasing to discuss whether the form of the distribution function deviates from the classical theory.`
+  - transcript: While the C, D, Fs are well scaled using the scaling variable V tilde, the statistical precision is infuriasing to discuss whether the form of the distribution function deviates from the classical theory.
 
 ### human_0002 (human)
 
@@ -157,6 +169,9 @@
   - transcript: The resulting system includes the probability that h is the sum of squares.
 - **qwen3-4b@oracle:** `The resulting system encodes the property that $h$ is a sum-of-squares.`
 - **qwen2-audio@e2e:** `The resulting system includes the four proper planes that $ash$ is a sum of squares.`
+- **split@dataset-asr:** `The resulting system includes the probability that $H(x)$ is the sum of squares.`
+- **split@whisper-turbo:** `The resulting system includes the probability that $H(x)$ is the sum of squares.`
+  - transcript: The resulting system includes the probability that h is the sum of squares.
 
 ### human_0009 (human)
 
@@ -171,6 +186,9 @@
   - transcript: In processes like N plus N goes to L plus L, the number density of initial particles are not small.
 - **qwen3-4b@oracle:** `In processes like $n + n \to l + l$, the number density of initial particles are not small.`
 - **qwen2-audio@e2e:** `In processes like $ capital N plus capital N goes to $ a plus $ m$, the number density of initial particles are not small.`
+- **split@dataset-asr:** `In processes like $n+n\to l+l$, the number density of initial particles are not small.`
+- **split@whisper-turbo:** `In processes like $n+n\to l+l$, the number density of initial particles are not small.`
+  - transcript: In processes like N plus N goes to L plus L, the number density of initial particles are not small.
 
 ## own
 

@@ -1,0 +1,50 @@
+{
+  "system": "split@dataset-asr",
+  "environment": {
+    "timestamp": "2026-10-25T13:49:32+00:00",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "chip": "Apple M5",
+    "memory_gb": 17.2,
+    "macos": "26.6.2",
+    "python": "3.12.14",
+    "packages": {
+      "ldbench": "0.1.0",
+      "mlx": "0.32.4",
+      "mlx-lm": "0.32.2",
+      "mlx-whisper": "0.4.3",
+      "mlx-audio": "0.6.1",
+      "huggingface_hub": "2.3.0",
+      "pyarrow": "26.0.0",
+      "rapidfuzz": "3.14.6"
+    }
+  },
+  "models": {
+    "qwen3-4b": {
+      "repo": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+      "sha": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+      "kind": "mlx-lm",
+      "load_s": 2.5,
+      "peak_memory_gb": 5.888
+    },
+    "paper-eq": {
+      "repo": "marsianin500/Qwen2.5-math-1.5B-instruct-equations_multilingual_mix",
+      "sha": "3a085dcbcdb489d4ecea62b2e7cc4257dcc62388",
+      "kind": "mlx-lm",
+      "load_s": 1.03,
+      "peak_memory_gb": 5.888
+    }
+  },
+  "splits": {
+    "equations": {
+      "skipped": "no text model for task 'equations'"
+    },
+    "sentences": {
+      "items": 10,
+      "new_predictions": 10
+    },
+    "own": {
+      "skipped": "split has no 'whisper_text' column"
+    }
+  }
+}
