@@ -1,0 +1,52 @@
+{
+  "split": "equations",
+  "method": "parquet",
+  "files": [
+    "equations_test-00000-of-00001.parquet"
+  ],
+  "rows_total": 2880,
+  "rows_by_language_group": {
+    "eng/human": 1515,
+    "eng/tts": 1230,
+    "ru/human": 45,
+    "ru/tts": 90
+  },
+  "sampled": {
+    "human": 40,
+    "tts": 10
+  },
+  "quota": {
+    "human": 40,
+    "tts": 10
+  },
+  "row_groups_downloaded": 25,
+  "audio_formats": {
+    "wav": 50
+  },
+  "sample_rates": {
+    "48000": 37,
+    "44100": 2,
+    "16000": 1,
+    "24000": 10
+  },
+  "mean_duration_s": 8954.22,
+  "columns": [
+    "spk: string",
+    "language: string",
+    "sentence_id: int64",
+    "is_tts: int64",
+    "pronunciation: string",
+    "whisper_text: string",
+    "sentence: string",
+    "audio_path: struct<bytes: binary, path: string>",
+    "formula_info: string",
+    "count_formula_symbols: double",
+    "count_formula_symbols_strates: string",
+    "__index_level_0__: int64",
+    "sentence_normalized: string"
+  ],
+  "audio_column": "audio_path",
+  "repo": "marsianin500/Speech2Latex",
+  "hf_split": "equations_test",
+  "revision": "main"
+}

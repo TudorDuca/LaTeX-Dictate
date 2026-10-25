@@ -1,0 +1,47 @@
+{
+  "split": "sentences",
+  "method": "parquet",
+  "files": [
+    "sentences_test-00000-of-00002.parquet",
+    "sentences_test-00001-of-00002.parquet"
+  ],
+  "rows_total": 2850,
+  "rows_by_language_group": {
+    "eng/human": 772,
+    "eng/tts": 2078
+  },
+  "sampled": {
+    "human": 10
+  },
+  "quota": {
+    "human": 10
+  },
+  "row_groups_downloaded": 9,
+  "audio_formats": {
+    "wav": 10
+  },
+  "sample_rates": {
+    "48000": 8,
+    "44100": 2
+  },
+  "mean_duration_s": 12.083,
+  "columns": [
+    "spk: string",
+    "language: string",
+    "sentence_id: int64",
+    "is_tts: int64",
+    "pronunciation: string",
+    "whisper_text: string",
+    "sentence: string",
+    "audio_path: struct<bytes: binary, path: string>",
+    "formula_info: string",
+    "count_formula_symbols: double",
+    "count_formula_symbols_strates: string",
+    "__index_level_0__: int64",
+    "sentence_normalized: string"
+  ],
+  "audio_column": "audio_path",
+  "repo": "marsianin500/Speech2Latex",
+  "hf_split": "sentences_test",
+  "revision": "main"
+}

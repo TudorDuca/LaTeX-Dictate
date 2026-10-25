@@ -1,0 +1,12 @@
+{
+  "split": "sentences_test",
+  "method": "paper-samples",
+  "sampled": {
+    "human": 4,
+    "tts": 4
+  },
+  "audio_formats": {
+    "wav": 8
+  },
+  "mean_duration_s": 14.809
+}
