@@ -47,8 +47,9 @@ hf auth login                        # free Hugging Face account; needed if the 
    ldb all            # fetch the sample, run every system (one process each), score
    open runs/m0/report.md runs/m0/examples.md
    ```
-   Runs can be resumed. If something fails, rerun the same command, or run one system with
-   `ldb run --system <name>`, then `ldb score`.
+   Runs can be resumed: finished items are cached, so rerunning only does what's missing.
+   If something fails, rerun the same command, or run one system with `ldb run --system <name>`, then `ldb score`.
+   To recompute from scratch, add `--fresh`, which deletes that system's cached results first.
 
 ### What M0 runs
 

@@ -65,12 +65,23 @@ def cmd_record(args) -> int:
 
 
 def cmd_run(args) -> int:
-    from .runner import run_system
+    from .runner import clear_system, run_system
 
     cfg = load_config(args.config)
+    if args.fresh:
+        clear_system(cfg, args.system)
     meta = run_system(cfg, args.system, args.split, args.limit)
-    for split, info in meta["splits"].items():
-        print(f"  {args.system} / {split}: {info}")
+    infos = meta["splits"]
+    for split, info in infos.items():
+        if "skipped" in info:
+            print(f"  {split}: skipped ({info['skipped']})")
+        else:
+            cached = info["items"] - info["new_predictions"]
+            print(f"  {split}: {info['items']} items, {info['new_predictions']} new"
+                  + (f", {cached} already done" if cached else ""))
+    if infos and all(i.get("new_predictions", 0) == 0 for i in infos.values() if "skipped" not in i):
+        print(f"  nothing new to run: results are cached under {cfg.run_dir}/ "
+              "(use --fresh to recompute this system)")
     return 0
 
 
@@ -88,6 +99,12 @@ def cmd_all(args) -> int:
     cfg = load_config(args.config)
     cmd_fetch(argparse.Namespace(config=args.config, split=None, force=False, method="auto"))
     systems = args.system or list(cfg.systems)
+    if args.fresh:
+        from .runner import clear_system
+
+        for name in systems:  # clear everything up front so shared transcripts are recomputed once
+            clear_system(cfg, name)
+        print(f"Cleared cached results for: {', '.join(systems)}")
     failed = []
     for name in systems:
         print(f"\n=== {name} ===", flush=True)
@@ -129,12 +146,14 @@ def main(argv: list[str] | None = None) -> int:
     sp.add_argument("--system", required=True)
     sp.add_argument("--split", action="append")
     sp.add_argument("--limit", type=int, help="only the first N items per split (debugging)")
+    sp.add_argument("--fresh", action="store_true", help="delete this system's cached results first")
 
     with_config(sub.add_parser("score", help="score predictions and write the report"))
 
     sp = with_config(sub.add_parser("all", help="fetch + run every system + score"))
     sp.add_argument("--system", action="append", help="only these systems (repeatable)")
     sp.add_argument("--limit", type=int)
+    sp.add_argument("--fresh", action="store_true", help="delete cached results and recompute everything")
 
     args = p.parse_args(argv)
     handler = {"doctor": cmd_doctor, "fetch": cmd_fetch, "record": cmd_record, "run": cmd_run,

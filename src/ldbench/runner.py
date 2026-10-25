@@ -143,6 +143,20 @@ def applicable(system: SystemCfg, split: SplitCfg, items: list[dict]) -> str | N
     return None
 
 
+def clear_system(cfg: Config, system_name: str) -> list[Path]:
+    """Delete a system's predictions, its meta file and the transcripts of its ASR model."""
+    system = cfg.systems[system_name]
+    paths = [cfg.run_dir / "meta" / f"{slug(system_name)}.json"]
+    for split in cfg.splits:
+        paths.append(cfg.run_dir / split / "pred" / f"{slug(system_name)}.jsonl")
+        if system.asr and not system.asr.startswith(COLUMN_PREFIX):
+            paths.append(cfg.run_dir / split / "asr" / f"{slug(system.asr)}.jsonl")
+    removed = [p for p in paths if p.exists()]
+    for p in removed:
+        p.unlink()
+    return removed
+
+
 def run_system(cfg: Config, system_name: str, split_names: list[str] | None = None,
                limit: int | None = None) -> dict:
     system = cfg.systems[system_name]

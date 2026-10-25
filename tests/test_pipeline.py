@@ -132,3 +132,23 @@ def test_resume_after_partial_run(cfg):
     assert CALLS["text"] == 4
     run_system(cfg, "cascade")
     assert CALLS["text"] == 4 + 1 + 5  # warm-up + the 5 remaining items
+
+
+def test_clear_system_forces_recompute(cfg):
+    from ldbench.runner import clear_system
+
+    run_system(cfg, "cascade")
+    assert CALLS == {"asr": 9, "text": 9, "e2e": 0}
+    removed = clear_system(cfg, "cascade")
+    assert any("pred" in str(p) for p in removed) and any("asr" in str(p) for p in removed)
+    run_system(cfg, "cascade")
+    assert CALLS == {"asr": 18, "text": 18, "e2e": 0}
+
+
+def test_cli_reports_cached_runs(cfg, capsys):
+    from ldbench.cli import main
+
+    run_system(cfg, "raw")
+    main(["run", "--config", str(cfg.path), "--system", "raw"])
+    out = capsys.readouterr().out
+    assert "0 new, 8 already done" in out and "--fresh" in out
