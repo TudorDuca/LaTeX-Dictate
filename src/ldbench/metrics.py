@@ -58,7 +58,29 @@ _DROP = {
     "\\left", "\\right", "\\bigl", "\\bigr", "\\Bigl", "\\Bigr", "\\biggl", "\\biggr",
     "\\big", "\\Big", "\\bigg", "\\Bigg", "\\displaystyle", "\\textstyle", "\\scriptstyle",
     "\\limits", "\\nolimits", "\\,", "\\;", "\\:", "\\!", "\\ ", "\\quad", "\\qquad", "~",
+    # The dataset's normalized LaTeX (and the paper's models) use a double backslash as a space
+    # marker, e.g. \csc\\x. Treat it as whitespace; this also drops matrix row breaks, on both sides.
+    "\\\\",
 }
+
+
+def _opens_argument(prev: str | None) -> bool:
+    """Whether a "{" after this token opens an argument (x^{..}, \\frac{..}{..}) rather than a plain group."""
+    return prev is not None and (prev in ("^", "_", "}", "]") or (prev.startswith("\\") and prev[1:].isalpha()))
+
+
+def _drop_grouping_braces(toks: list[str]) -> list[str]:
+    """Remove braces that only group (e.g. "{A_{2}f(x)}" or "\\lim_{{x\\to 4}}"), keep argument braces."""
+    drop: set[int] = set()
+    stack: list[tuple[int, bool]] = []
+    for i, t in enumerate(toks):
+        if t == "{":
+            stack.append((i, not _opens_argument(toks[i - 1] if i else None)))
+        elif t == "}" and stack:
+            j, grouping = stack.pop()
+            if grouping:
+                drop.update((i, j))
+    return [t for i, t in enumerate(toks) if i not in drop]
 
 
 def latex_tokens(s: str) -> list[str]:
@@ -66,6 +88,7 @@ def latex_tokens(s: str) -> list[str]:
     s = strip_math_delimiters(s or "")
     toks = [_SYNONYMS.get(t, t) for t in _TOKEN_RE.findall(s)]
     toks = [t for t in toks if t not in _DROP]
+    toks = _drop_grouping_braces(toks)
     # Remove braces around a single token everywhere: x^{2} -> x^2, \hat{\mu} -> \hat\mu.
     changed = True
     while changed:
@@ -153,6 +176,12 @@ def _score_strings(p: str, r: str) -> ItemScore:
     pt, rt = p.split(), r.split()
     pc, rc = p.replace(" ", ""), r.replace(" ", "")
     return ItemScore(Levenshtein.distance(pc, rc), len(rc), Levenshtein.distance(pt, rt), len(rt), pc == rc)
+
+
+def median_item_cer(scores: list[ItemScore]) -> float:
+    """Median of per-item CER: robust to a single runaway output in a small sample."""
+    vals = [s.edits / s.ref_len for s in scores if s.ref_len]
+    return percentile(vals, 0.5)
 
 
 def corpus_rates(scores: list[ItemScore]) -> dict[str, float]:

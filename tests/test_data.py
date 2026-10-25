@@ -62,3 +62,15 @@ def test_helpers():
     assert sniff_audio_ext(b"fLaC....") == "flac"
     assert strip_math_delimiters("$$ a $$") == "a"
     assert strip_math_delimiters("a $b$") == "a $b$"
+
+
+def test_duration_ignores_bogus_header_length(tmp_path: Path):
+    import struct
+
+    from ldbench.data import audio_info
+
+    data = bytearray(make_wav(seconds=0.5, rate=24_000))
+    data[40:44] = struct.pack("<I", 0xFFFFFFFF)  # data chunk claims ~4 GB, as in some TTS clips
+    path = tmp_path / "x.wav"
+    path.write_bytes(bytes(data))
+    assert audio_info(path)["duration_s"] == 0.5

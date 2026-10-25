@@ -81,3 +81,32 @@ def test_bootstrap_ci_contains_point_estimate():
 def test_percentile():
     assert percentile([1, 2, 3, 4], 0.5) == 2.5
     assert math.isnan(percentile([], 0.5))
+
+
+@pytest.mark.parametrize(
+    "normalized,raw",
+    [
+        # forms seen in the dataset's sentence_normalized column vs ordinary LaTeX
+        (r"\csc\\x=\frac{1}{\sin\\x}", r"\csc x = \frac{1}{\sin x}"),
+        (r"{A_{2}f(x)}\leq\\M^{0}f(x)", r"A_2 f(x) \le M^0 f(x)"),
+        (r"\lim_{{x\to\\4}}\sqrt{x}", r"\lim_{x \to 4} \sqrt{x}"),
+        (r"\sigma^{\pm}=\frac{1}{2}(\sigma^{x}\pm\\i\sigma^{y})", r"\sigma^\pm = \frac12 (\sigma^x \pm i \sigma^y)"),
+    ],
+)
+def test_dataset_normalized_form_matches_raw_latex(normalized, raw):
+    assert normalize_formula(normalized) == normalize_formula(raw)
+
+
+def test_argument_braces_are_kept():
+    assert normalize_formula(r"\frac{a+b}{c}") != normalize_formula(r"\frac{a}{b}+c")
+    assert normalize_formula(r"\sqrt[3]{x+1}") == r"\sqrt[3]{x+1}"
+    assert normalize_formula(r"x^{2y}") != normalize_formula(r"x^2y")
+
+
+def test_median_item_cer_ignores_one_runaway():
+    from ldbench.metrics import median_item_cer
+
+    good = [score_item("x+1", "x+1", "equations")["latex"]] * 4
+    runaway = score_item("1,0,0,0,0,0,0,0,0,0,0,0", "R", "equations")["latex"]
+    assert corpus_rates(good + [runaway])["cer"] > 1.0
+    assert median_item_cer(good + [runaway]) == 0.0

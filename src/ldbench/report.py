@@ -9,9 +9,16 @@ from collections import defaultdict
 from pathlib import Path
 
 from .config import COLUMN_PREFIX, Config, SystemCfg
-from .data import read_manifest, read_stats
+from .data import audio_info, read_manifest, read_stats
 from .katex import renders
-from .metrics import bootstrap_cer_ci, corpus_rates, percentile, score_item, split_inline_math
+from .metrics import (
+    bootstrap_cer_ci,
+    corpus_rates,
+    median_item_cer,
+    percentile,
+    score_item,
+    split_inline_math,
+)
 from .runner import _read_jsonl, slug
 
 HEADLINE_VIEW = {"equations": "latex", "sentences": "formulas"}
@@ -61,7 +68,14 @@ def compute(cfg: Config) -> dict:
     for split in cfg.splits.values():
         split_dir = cfg.split_data_dir(split)
         items = {i["id"]: i for i in read_manifest(split_dir)}
-        split_res = {"task": split.task, "n_items": len(items), "stats": read_stats(split_dir), "systems": {}}
+        stats = read_stats(split_dir)
+        if stats is not None:
+            durations = [audio_info(split_dir / i["audio"]).get("duration_s") for i in items.values()
+                         if (split_dir / i["audio"]).exists()]
+            durations = [x for x in durations if x is not None]
+            if durations:
+                stats["mean_duration_s"] = round(sum(durations) / len(durations), 3)
+        split_res = {"task": split.task, "n_items": len(items), "stats": stats, "systems": {}}
         for system in cfg.systems.values():
             meta = results["systems"][system.name]
             skipped = meta.get("splits", {}).get(split.name, {}).get("skipped")
@@ -88,20 +102,32 @@ def model_stats(system_metas: dict) -> dict:
     return merged
 
 
-def _score_system(cfg: Config, task: str, system: SystemCfg, models: dict, items: dict, preds: dict) -> dict:
-    ids = sorted(preds)
-    per_item = {i: score_item(preds[i]["pred"], items[i]["target"], task) for i in ids}
+def reference(item: dict) -> str:
+    """Raw dataset LaTeX when available. The normalized column carries pipeline artifacts
+    (e.g. "\\\\" as a space marker, extra grouping braces) that only the paper's own models reproduce."""
+    return item.get("sentence") or item["target"]
+
+
+def _views(cfg: Config, task: str, ids: list[str], items: dict, preds: dict, ref_fn) -> dict:
+    per_item = {i: score_item(preds[i]["pred"], ref_fn(items[i]), task) for i in ids}
     views = {}
     for view in per_item[ids[0]]:
         scores = [per_item[i][view] for i in ids]
-        rates = corpus_rates(scores)
         lo, hi = bootstrap_cer_ci(scores, seed=cfg.seed)
         by_group = defaultdict(list)
         for i in ids:
             by_group[items[i]["group"]].append(per_item[i][view])
-        views[view] = {**rates, "cer_ci": [lo, hi],
+        views[view] = {**corpus_rates(scores), "cer_ci": [lo, hi], "median_item_cer": median_item_cer(scores),
                        "cer_by_group": {g: corpus_rates(s)["cer"] for g, s in sorted(by_group.items())},
                        "n_by_group": {g: len(s) for g, s in sorted(by_group.items())}}
+    return views
+
+
+def _score_system(cfg: Config, task: str, system: SystemCfg, models: dict, items: dict, preds: dict) -> dict:
+    ids = sorted(preds)
+    views = _views(cfg, task, ids, items, preds, reference)
+    # Sensitivity check: the same scores against the dataset's normalized reference.
+    alt = _views(cfg, task, ids, items, preds, lambda it: it["target"])
 
     text_only = system.asr is not None and system.asr.startswith(COLUMN_PREFIX)
     lat = [preds[i]["gen_s"] if text_only else preds[i]["total_s"] for i in ids]
@@ -114,6 +140,7 @@ def _score_system(cfg: Config, task: str, system: SystemCfg, models: dict, items
         "nonempty": sum(bool(p.strip()) for p in pred_texts) / len(ids),
         "views": views,
         "headline": views[HEADLINE_VIEW[task]],
+        "headline_vs_normalized_ref": alt[HEADLINE_VIEW[task]],
         "render_rate": _render_rate(pred_texts, task),
         "latency_p50_s": percentile(lat, 0.5),
         "latency_p95_s": percentile(lat, 0.95),
@@ -165,8 +192,10 @@ def render_markdown(cfg: Config, results: dict) -> str:
     if env:
         lines += [f"Machine: {env.get('chip')}, {env.get('memory_gb')} GB, macOS {env.get('macos')}, "
                   f"Python {env.get('python')}. Generated {env.get('timestamp')}.", ""]
-    lines += ["Metrics use the harness's provisional LaTeX normalizer (see `src/ldbench/metrics.py`); "
-              "they are not yet directly comparable with the paper's published numbers.", ""]
+    lines += ["CER is corpus-level on normalized LaTeX (see `src/ldbench/metrics.py`), against the dataset's raw "
+              "LaTeX (`sentence`); *vs norm. ref* repeats it against the dataset's `sentence_normalized` column. "
+              "*Median* is the median per-item CER, robust to a single runaway output. Not yet directly "
+              "comparable with the paper's published numbers (different normalizer and sample).", ""]
 
     gates = results["gates"]
     overall = all(c["pass"] for c in gates) if gates else False
@@ -181,10 +210,10 @@ def render_markdown(cfg: Config, results: dict) -> str:
         lines += [f"## {name} ({task}, {split['n_items']} items)", ""]
         groups = sorted({g for r in split["systems"].values() if r.get("status") == "ok"
                          for g in r["headline"]["cer_by_group"]})
-        head = [f"System", "n", f"{metric} (95% CI)", *[f"{metric} {g}" for g in groups],
+        head = ["System", "n", f"{metric} (95% CI)", "Median", "vs norm. ref", *[f"{metric} {g}" for g in groups],
                 "Token ER", "Exact", "Renders", "Latency p50 / p95 (s)", "Peak mem (GB)", "Load (s)"]
         if task == "sentences":
-            head.insert(3, "full-text CER")
+            head.insert(5, "full-text CER")
         lines += ["| " + " | ".join(head) + " |", "|" + "---|" * len(head)]
         for sys_name, r in split["systems"].items():
             if r.get("status") != "ok":
@@ -193,13 +222,14 @@ def render_markdown(cfg: Config, results: dict) -> str:
             h = r["headline"]
             row = [sys_name, str(r["n"]),
                    f"{_fmt(h['cer'], pct=True)} ({_fmt(h['cer_ci'][0], pct=True)}–{_fmt(h['cer_ci'][1], pct=True)})",
+                   _fmt(h["median_item_cer"], pct=True), _fmt(r["headline_vs_normalized_ref"]["cer"], pct=True),
                    *[_fmt(h["cer_by_group"].get(g), pct=True) for g in groups],
                    _fmt(h["ter"], pct=True), _fmt(h["exact"], pct=True), _fmt(r["render_rate"], pct=True),
                    f"{_fmt(r['latency_p50_s'])} / {_fmt(r['latency_p95_s'])}"
                    + ("*" if r["latency_scope"].startswith("text") else ""),
                    _fmt(r["peak_memory_gb"]), _fmt(r["load_s"], digits=1)]
             if task == "sentences":
-                row.insert(3, _fmt(r["views"]["full"]["cer"], pct=True))
+                row.insert(5, _fmt(r["views"]["full"]["cer"], pct=True))
             lines.append("| " + " | ".join(row) + " |")
         lines += ["", "\\* latency of the text step only (the transcript comes from the dataset).", ""]
 

@@ -84,11 +84,15 @@ def audio_info(path: Path) -> dict:
         return {"format": path.suffix.lstrip(".")}
     try:
         with wave.open(str(path), "rb") as w:
+            frame_bytes = w.getnchannels() * w.getsampwidth()
+            # Some TTS clips have a streaming-style header with a bogus (maximal) frame count;
+            # never claim more frames than the file can hold.
+            frames = min(w.getnframes(), max(0, path.stat().st_size - 44) // max(1, frame_bytes))
             return {
                 "format": "wav",
                 "sample_rate": w.getframerate(),
                 "channels": w.getnchannels(),
-                "duration_s": round(w.getnframes() / float(w.getframerate()), 3),
+                "duration_s": round(frames / float(w.getframerate()), 3),
             }
     except (wave.Error, EOFError):
         return {"format": "wav"}
