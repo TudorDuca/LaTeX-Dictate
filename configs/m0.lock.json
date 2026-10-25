@@ -1,0 +1,25 @@
+{
+  "models": {
+    "whisper-turbo": {
+      "repo": "mlx-community/whisper-large-v3-turbo",
+      "sha": "a4aaeec0636e6fef84abdcbe3544cb2bf7e9f6fb"
+    },
+    "qwen3-4b": {
+      "repo": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+      "sha": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b"
+    },
+    "paper-eq": {
+      "repo": "marsianin500/Qwen2.5-math-1.5B-instruct-equations_multilingual_mix",
+      "sha": "3a085dcbcdb489d4ecea62b2e7cc4257dcc62388"
+    },
+    "paper-sent": {
+      "repo": "marsianin500/Qwen2.5-math-1.5B-instruct-sentences_eng_mix",
+      "sha": "94bc54a177a65621310b79ebda5f563810e1d934"
+    },
+    "qwen2-audio": {
+      "repo": "mlx-community/Qwen2-Audio-7B-Instruct-4bit",
+      "sha": "c65570002626f41b4dc08b7b54f42f99f3e82e7f"
+    }
+  },
+  "created": "2026-10-25T11:53:15+00:00"
+}

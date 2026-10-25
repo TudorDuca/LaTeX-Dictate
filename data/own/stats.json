@@ -1,0 +1,9 @@
+{
+  "split": "own",
+  "method": "local",
+  "sampled": {
+    "own": 20
+  },
+  "missing_recordings": [],
+  "mean_duration_s": 8.638
+}
