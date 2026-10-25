@@ -1,0 +1,9 @@
+{
+  "name": "ldbench-katex-check",
+  "private": true,
+  "type": "module",
+  "description": "Checks whether LaTeX strings render with KaTeX (used for the render-rate metric).",
+  "dependencies": {
+    "katex": "0.16.22"
+  }
+}

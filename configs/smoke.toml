@@ -1,0 +1,42 @@
+# Five-minute install check: 16 sample clips from the paper's GitHub repo (no dataset download),
+# Whisper + a small LLM. Run: ldb all --config configs/smoke.toml
+
+run_name = "smoke"
+seed = 0
+
+[dataset]
+language = "eng"
+
+[[splits]]
+name = "equations"
+source = "paper-samples"
+hf_split = "equations_test"
+task = "equations"
+
+[[splits]]
+name = "sentences"
+source = "paper-samples"
+hf_split = "sentences_test"
+task = "sentences"
+
+[models.whisper-turbo]
+kind = "mlx-whisper"
+repo = "mlx-community/whisper-large-v3-turbo"
+
+[models.qwen3-4b]
+kind = "mlx-lm"
+repo = "mlx-community/Qwen3-4B-Instruct-2507-4bit"
+
+[[systems]]
+name = "whisper-raw"
+asr = "whisper-turbo"
+
+[[systems]]
+name = "qwen3-4b@whisper-turbo"
+asr = "whisper-turbo"
+text = "qwen3-4b"
+
+[gates]
+max_peak_memory_gb = 12
+max_p95_latency_s = 3.0
+min_nonempty_rate = 0.95

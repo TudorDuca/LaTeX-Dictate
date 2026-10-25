@@ -1,0 +1,21 @@
+id,difficulty,latex
+f01,easy,x^{2}+y^{2}=z^{2}
+f02,easy,\frac{a}{b}+c
+f03,easy,\frac{a+b}{c}
+f04,easy,e^{i\pi}+1=0
+f05,easy,\sqrt{x^{2}+1}
+f06,medium,\sin^{2}\theta+\cos^{2}\theta=1
+f07,medium,f'(x)=\lim_{h\to 0}\frac{f(x+h)-f(x)}{h}
+f08,medium,\sum_{i=1}^{n}i=\frac{n(n+1)}{2}
+f09,medium,"\int_{0}^{\infty}e^{-x^{2}}\,dx=\frac{\sqrt{\pi}}{2}"
+f10,medium,\binom{n}{k}=\frac{n!}{k!(n-k)!}
+f11,medium,\det(A-\lambda I)=0
+f12,medium,P(A\mid B)=\frac{P(B\mid A)P(A)}{P(B)}
+f13,medium,"\mathbb{E}[X]=\sum_{x}x\,p(x)"
+f14,medium,|x-a|<\delta\Rightarrow|f(x)-f(a)|<\epsilon
+f15,hard,\nabla\cdot\mathbf{E}=\frac{\rho}{\epsilon_{0}}
+f16,hard,\frac{\partial^{2}u}{\partial t^{2}}=c^{2}\nabla^{2}u
+f17,hard,\|x\|_{2}=\sqrt{\sum_{i=1}^{n}x_{i}^{2}}
+f18,hard,\hat{\beta}=(X^{\top}X)^{-1}X^{\top}y
+f19,hard,\begin{pmatrix}a&b\\c&d\end{pmatrix}^{-1}=\frac{1}{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}
+f20,hard,\{x\in\mathbb{R}:x^{2}<2\}
