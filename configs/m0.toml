@@ -39,6 +39,18 @@ task = "equations"
 kind = "mlx-whisper"
 repo = "mlx-community/whisper-large-v3-turbo"
 
+# Qwen3-ASR (Alibaba, open, 52 languages incl. Spanish). LLM-based: accepts a system prompt / hotwords.
+[models.qwen3-asr]
+kind = "mlx-audio-stt"
+repo = "mlx-community/Qwen3-ASR-1.7B-8bit"
+options = { language = "English", max_tokens = 512 }
+
+# Same model told the speech is mathematics (prompt written before seeing any results).
+[models.qwen3-asr-math]
+kind = "mlx-audio-stt"
+repo = "mlx-community/Qwen3-ASR-1.7B-8bit"
+options = { language = "English", max_tokens = 512, system_prompt = "The speaker is dictating mathematics: formulas, variables, Greek letters, subscripts and superscripts. Transcribe the words exactly as spoken." }
+
 [models.qwen3-4b]
 kind = "mlx-lm"
 repo = "mlx-community/Qwen3-4B-Instruct-2507-4bit"
@@ -103,6 +115,33 @@ asr = "whisper-turbo"
 segmenter = "qwen3-4b"
 text = { sentences = "paper-eq" }
 prompt = "paper"
+
+# ASR comparison: Qwen3-ASR in place of Whisper, in front of the same converters.
+[[systems]]
+name = "qwen3-asr-raw"
+asr = "qwen3-asr"
+
+[[systems]]
+name = "paper@qwen3-asr"
+asr = "qwen3-asr"
+text = { equations = "paper-eq", sentences = "paper-sent" }
+prompt = "paper"
+
+[[systems]]
+name = "qwen3-4b@qwen3-asr"
+asr = "qwen3-asr"
+text = "qwen3-4b"
+
+[[systems]]
+name = "paper@qwen3-asr-math"
+asr = "qwen3-asr-math"
+text = { equations = "paper-eq", sentences = "paper-sent" }
+prompt = "paper"
+
+[[systems]]
+name = "qwen3-4b@qwen3-asr-math"
+asr = "qwen3-asr-math"
+text = "qwen3-4b"
 
 # ---------------------------------------------------------------- M0 gates
 
