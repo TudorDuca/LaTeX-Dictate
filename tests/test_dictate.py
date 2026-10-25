@@ -110,10 +110,10 @@ class FakePipeline:
 
 def make(tmp_path, **kw):
     clip, pasted, lines = [], [], []
-    options = {"wrap": "none", "do_paste": False, **{k: v for k, v in kw.items() if k in ("wrap", "do_paste")}}
+    options = {"wrap": "none", "output": "copy", **{k: v for k, v in kw.items() if k in ("wrap", "output")}}
     d = Dictation(kw.get("pipeline", FakePipeline()), kw.get("recorder", FakeRecorder()), sounds=False,
                   log_path=tmp_path / "log.jsonl", clipboard=clip.append, paster=lambda: pasted.append(1),
-                  out=lines.append, **options)
+                  typer=lambda text: pasted.append(("typed", text)), out=lines.append, **options)
     return d, clip, pasted, lines
 
 
@@ -128,7 +128,7 @@ def test_hold_flow_copies_and_logs(tmp_path):
 
 
 def test_toggle_and_paste(tmp_path):
-    d, clip, pasted, _ = make(tmp_path, do_paste=True)
+    d, clip, pasted, _ = make(tmp_path, output="paste")
     d.handle("toggle")
     assert d.recording
     d.handle("toggle")
@@ -220,3 +220,26 @@ def test_pipeline_bounds_runaway_generation(cfg):
 def test_pipeline_rejects_dataset_transcript_systems(cfg):
     with pytest.raises(SystemExit, match="real ASR model"):
         Pipeline(cfg, "oracle", "equations")
+
+
+def test_type_mode_types_and_still_copies(tmp_path):
+    d, clip, typed, lines = make(tmp_path, output="type", wrap="inline")
+    d.handle("start")
+    d.handle("stop")
+    assert clip == ["$x^{2}$"] and typed == [("typed", "$x^{2}$")] and "typed" in lines[-1]
+
+
+def test_cli_defaults_to_paste():
+    from ldbench import cli
+
+    seen = {}
+    orig = cli.cmd_dictate
+    cli.cmd_dictate = lambda args: seen.setdefault("output", args.output) and 0
+    try:
+        cli.main(["dictate"])
+        default = seen.pop("output")
+        cli.main(["dictate", "--type"])
+        typed = seen.pop("output")
+    finally:
+        cli.cmd_dictate = orig
+    assert (default, typed) == ("paste", "type")

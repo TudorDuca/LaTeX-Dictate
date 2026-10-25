@@ -74,18 +74,23 @@ hf auth login                        # free Hugging Face account; needed if the 
 
 ## Try it: push-to-talk maths dictation
 
-Hold a key, say a formula, let go, and the LaTeX lands on your clipboard or is pasted into the app you're in.
+Hold a key, say a formula, let go, and the LaTeX is pasted where your cursor is, in any app. It also stays on the clipboard.
 The default is Whisper-turbo plus the paper's fine-tuned model, the best system in M0, running fully on-device.
 
 ```bash
 uv pip install -e '.[mac,dictate]'
-ldb dictate --paste                 # hold right Option (⌥), speak, release
+ldb dictate                         # hold right Option (⌥), speak, release
 ```
 
 - **First run:** macOS asks for **Microphone** access. Allow it.
-- **Hotkeys and pasting** need your terminal app enabled under System Settings > Privacy & Security > **Accessibility**, and also under **Input Monitoring**. Restart the terminal after enabling it.
+- **Hotkeys and pasting** need your terminal app enabled under System Settings > Privacy & Security, in two places:
+  - **Input Monitoring**, to hear the hotkey;
+  - **Accessibility**, to paste. Without it the paste is dropped silently, and `ldb dictate` warns at startup.
+
+  Restart the terminal after enabling them.
 - **Options:**
   - `--wrap inline` gives `$...$`; `--wrap display` gives `\[...\]`.
+  - `--type` types the text key by key, for apps that ignore a pasted ⌘V. `--copy-only` leaves it on the clipboard without pasting.
   - `--mode toggle` uses press-to-start, press-to-stop (default hotkey `<ctrl>+<alt>+m`). `--hotkey` sets any combination.
   - `--mode terminal` uses Enter in the terminal window and needs no Accessibility permission.
   - `--task sentences` handles prose with inline maths.

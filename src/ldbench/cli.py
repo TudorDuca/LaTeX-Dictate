@@ -89,7 +89,7 @@ def cmd_dictate(args) -> int:
     from .dictate import main as dictate_main
 
     cfg = load_config(args.config)
-    dictate_main(cfg, args.system, args.task, args.mode, args.hotkey, args.wrap, args.paste,
+    dictate_main(cfg, args.system, args.task, args.mode, args.hotkey, args.wrap, args.output,
                  args.device, args.save_audio, not args.no_sound)
     return 0
 
@@ -166,7 +166,13 @@ def main(argv: list[str] | None = None) -> int:
                     help="hold the hotkey while speaking (default), press to start/stop, or Enter in the terminal")
     sp.add_argument("--hotkey", help="pynput syntax; default <alt_r> (right Option) for hold, "
                                      "<ctrl>+<alt>+m for toggle")
-    sp.add_argument("--paste", action="store_true", help="also paste into the focused app (Cmd+V)")
+    out = sp.add_mutually_exclusive_group()
+    out.add_argument("--copy-only", dest="output", action="store_const", const="copy",
+                     help="only copy to the clipboard (default: paste where your cursor is)")
+    out.add_argument("--type", dest="output", action="store_const", const="type",
+                     help="type the LaTeX key by key instead of pasting (for apps that ignore a paste)")
+    out.add_argument("--paste", dest="output", action="store_const", const="paste", help=argparse.SUPPRESS)
+    sp.set_defaults(output="paste")
     sp.add_argument("--wrap", choices=["none", "inline", "display"], default="none",
                     help="wrap the output in $...$ (inline) or \\[...\\] (display)")
     sp.add_argument("--device", help="input device index or name (see ldb record --list-devices)")

@@ -27,6 +27,7 @@ from .runner import ModelPool
 MIN_SECONDS = 0.3
 SOUNDS = {"start": "Tink", "stop": "Pop", "error": "Basso"}
 WRAPS = {"none": "{}", "inline": "${}$", "display": "\\[{}\\]"}
+OUTPUT_LABELS = {"paste": ", pasted", "type": ", typed", "copy": ", copied"}
 
 
 # --------------------------------------------------------------------------- models
@@ -225,13 +226,44 @@ def copy_to_clipboard(text: str) -> None:
 
 
 def paste() -> None:
-    from pynput.keyboard import Controller, Key
+    """Send Cmd+V to the focused app.
 
-    kb = Controller()
-    time.sleep(0.05)  # let the hotkey's own key-up reach the app first
-    with kb.pressed(Key.cmd):
-        kb.press("v")
-        kb.release("v")
+    Posted as raw Quartz events with exactly the Command flag, so a modifier from the hotkey that macOS
+    still considers held (e.g. right Option) cannot turn it into a different shortcut.
+    """
+    time.sleep(0.1)  # let the hotkey's own key-up reach the app first
+    try:
+        from Quartz import (CGEventCreateKeyboardEvent, CGEventPost, CGEventSetFlags, kCGEventFlagMaskCommand,
+                            kCGHIDEventTap)
+    except ImportError:
+        from pynput.keyboard import Controller, Key
+
+        kb = Controller()
+        with kb.pressed(Key.cmd):
+            kb.press("v")
+            kb.release("v")
+        return
+    for down in (True, False):
+        event = CGEventCreateKeyboardEvent(None, 0x09, down)  # kVK_ANSI_V
+        CGEventSetFlags(event, kCGEventFlagMaskCommand)
+        CGEventPost(kCGHIDEventTap, event)
+
+
+def type_text(text: str) -> None:
+    """Type the text key by key, for apps that ignore a synthetic paste."""
+    from pynput.keyboard import Controller
+
+    time.sleep(0.1)
+    Controller().type(text)
+
+
+def can_send_keystrokes() -> bool | None:
+    """Whether macOS lets this process post key events (Accessibility); None if unknown."""
+    try:
+        from ApplicationServices import AXIsProcessTrusted
+    except ImportError:
+        return None
+    return bool(AXIsProcessTrusted())
 
 
 def play(sound: str) -> None:
@@ -246,11 +278,12 @@ def play(sound: str) -> None:
 class Dictation:
     """Event loop on the main thread: start/stop recording, run the pipeline, deliver the LaTeX."""
 
-    def __init__(self, pipeline, recorder, *, wrap: str = "none", do_paste: bool = False, sounds: bool = True,
+    def __init__(self, pipeline, recorder, *, wrap: str = "none", output: str = "paste", sounds: bool = True,
                  log_path: Path | None = None, audio_dir: Path | None = None,
-                 clipboard=copy_to_clipboard, paster=paste, player=play, out=print):
+                 clipboard=copy_to_clipboard, paster=paste, typer=type_text, player=play, out=print):
         self.pipeline, self.recorder = pipeline, recorder
-        self.wrap, self.do_paste, self.sounds = wrap, do_paste, sounds
+        self.wrap, self.output, self.sounds = wrap, output, sounds
+        self.typer = typer
         self.log_path, self.audio_dir = log_path, audio_dir
         self.clipboard, self.paster, self.player, self.out = clipboard, paster, player, out
         self.events: queue.Queue = queue.Queue()
@@ -303,13 +336,15 @@ class Dictation:
             self.out(f"  ! nothing recognised (heard: {result['transcript']!r})")
         else:
             text = WRAPS[self.wrap].format(latex)
-            self.clipboard(text)
-            if self.do_paste:
+            self.clipboard(text)  # always, so it can be pasted again by hand
+            if self.output == "paste":
                 self.paster()
+            elif self.output == "type":
+                self.typer(text)
             timing = f"{(result['asr_s'] or 0) + result['gen_s']:.2f} s"
             if result["transcript"] is not None:
                 self.out(f"  heard: {result['transcript']}")
-            self.out(f"  LaTeX: {text}   [{timing}{', pasted' if self.do_paste else ', copied'}]")
+            self.out(f"  LaTeX: {text}   [{timing}{OUTPUT_LABELS[self.output]}]")
         if self.log_path is not None:
             self.log_path.parent.mkdir(parents=True, exist_ok=True)
             with open(self.log_path, "a") as f:
@@ -337,6 +372,12 @@ class Dictation:
 
 # --------------------------------------------------------------------------- entry point
 
+NO_KEYSTROKES = """\
+  ! macOS will silently drop the paste: this terminal may not send keystrokes.
+    System Settings > Privacy & Security > Accessibility: enable your terminal app, then restart it.
+    (Input Monitoring only lets it *hear* the hotkey.) Until then the LaTeX is still on the clipboard.
+"""
+
 DEFAULT_HOTKEYS = {"hold": "<alt_r>", "toggle": "<ctrl>+<alt>+m"}
 
 UNTRUSTED = """\
@@ -347,7 +388,7 @@ UNTRUSTED = """\
 """
 
 
-def main(cfg: Config, system: str, task: str, mode: str, hotkey: str | None, wrap: str, do_paste: bool,
+def main(cfg: Config, system: str, task: str, mode: str, hotkey: str | None, wrap: str, output: str,
          device: str | None, save_audio: bool, sounds: bool) -> None:
     from .record import OPEN_FAILED
 
@@ -368,7 +409,7 @@ def main(cfg: Config, system: str, task: str, mode: str, hotkey: str | None, wra
 
     run_dir = cfg.runs_dir / "dictate"
     dictation = Dictation(
-        pipeline, recorder, wrap=wrap, do_paste=do_paste, sounds=sounds,
+        pipeline, recorder, wrap=wrap, output=output, sounds=sounds,
         log_path=run_dir / "log.jsonl",
         audio_dir=(cfg.data_dir / "dictations" / "audio") if save_audio else None,
     )
@@ -383,7 +424,10 @@ def main(cfg: Config, system: str, task: str, mode: str, hotkey: str | None, wra
             print(UNTRUSTED)
         how = (f"Hold {hotkey}, speak, release." if mode == "hold"
                else f"Press {hotkey} to start, press it again to convert.")
-    target = "pasted into the focused app" if do_paste else "copied to the clipboard"
+    if output != "copy" and can_send_keystrokes() is False:
+        print(NO_KEYSTROKES)
+    target = {"paste": "pasted where your cursor is", "type": "typed where your cursor is",
+              "copy": "copied to the clipboard"}[output]
     print(f"{how} The LaTeX is {target}. Ctrl+C quits.\nInput: {recorder.sd.query_devices(recorder.device, kind='input')['name']}"
           f" ({recorder.rate} Hz). Log: {run_dir / 'log.jsonl'}\n", flush=True)
     dictation.run()
