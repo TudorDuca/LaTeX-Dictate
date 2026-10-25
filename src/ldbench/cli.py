@@ -91,7 +91,7 @@ def cmd_dictate(args) -> int:
     cfg = load_config(args.config)
     system = args.system or ("split@whisper-turbo" if args.task == "mixed" else "paper@whisper-turbo")
     dictate_main(cfg, system, args.task, args.mode, args.hotkey, args.wrap, args.output,
-                 args.device, args.save_audio, not args.no_sound)
+                 args.device, args.save_audio, not args.no_sound, args.language)
     return 0
 
 
@@ -180,6 +180,8 @@ def main(argv: list[str] | None = None) -> int:
     sp.add_argument("--wrap", choices=["none", "inline", "display"], default="none",
                     help="wrap the output in $...$ (inline) or \\[...\\] (display)")
     sp.add_argument("--device", help="input device index or name (see ldb record --list-devices)")
+    sp.add_argument("--language", help="speech language: es, Spanish, en, ... or auto to detect (default: the "
+                                       "model's config, English). Forcing English on Spanish speech translates it")
     sp.add_argument("--save-audio", action="store_true", help="keep each take under data/dictations/audio/")
     sp.add_argument("--no-sound", action="store_true", help="no start/stop sounds")
 

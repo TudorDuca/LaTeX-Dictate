@@ -403,12 +403,17 @@ UNTRUSTED = """\
 
 
 def main(cfg: Config, system: str, task: str, mode: str, hotkey: str | None, wrap: str, output: str,
-         device: str | None, save_audio: bool, sounds: bool) -> None:
+         device: str | None, save_audio: bool, sounds: bool, language: str | None = None) -> None:
+    from .languages import to_code
     from .record import OPEN_FAILED
 
+    if language:
+        to_code(language)  # fail fast on a typo, before loading models
     print(f"Loading {system} ({task})…", flush=True)
     t0 = time.perf_counter()
     pipeline = Pipeline(cfg, system, task)
+    if language and pipeline.asr is not None and hasattr(pipeline.asr, "set_language"):
+        pipeline.asr.set_language(language)
     silence = Path(tempfile.gettempdir()) / "ldb-dictate-warmup.wav"
     import numpy as np
 

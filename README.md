@@ -95,6 +95,7 @@ ldb dictate                         # hold right Option (⌥), speak, release
   - `--mode terminal` uses Enter in the terminal window and needs no Accessibility permission.
   - `--task sentences` handles prose with inline maths.
 - **Talking normally, with maths inline:** `ldb dictate --task mixed`. This is for explaining your reasoning to an AI tutor, writing notes, and similar. Whisper transcribes everything, and Qwen3-4B marks which words are maths. Only those spans go to the equation model, so your own words come through exactly as heard: "so if f of x equals x squared then the derivative is two x" becomes "so if $f(x)=x^{2}$ then the derivative is $2x$". It keeps about 11 GB of models loaded.
+- **Other languages:** `--language es` (or `Spanish`, or `auto`) sets the speech language for Whisper and Qwen3-ASR. The default is English, and forcing English on Spanish speech translates it. The LaTeX models were trained on English and Russian, so for Spanish prose with maths, `--task sentences --system qwen3-4b@...` (multilingual) is the best bet.
 - **Other models:** any system from `configs/m0.toml`, for example `ldb dictate --system qwen3-4b@whisper-turbo`.
 - **What it costs to run:** it keeps about 8.4 GB of models in memory while running, so quit with Ctrl+C when you're done. Each dictation takes about 1 s.
 - **Logging:** each dictation is logged locally to `runs/dictate/log.jsonl`. `--save-audio` also keeps the recordings under `data/dictations/audio/`. Neither is committed to git. Your own takes are useful test data later.

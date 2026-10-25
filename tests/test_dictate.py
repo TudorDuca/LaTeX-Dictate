@@ -243,3 +243,40 @@ def test_cli_defaults_to_paste():
     finally:
         cli.cmd_dictate = orig
     assert (default, typed) == ("paste", "type")
+
+
+def test_language_names_and_codes():
+    from ldbench.languages import to_code, to_name
+
+    assert to_code("ES") == "es" and to_code("Spanish") == "es" and to_code("auto") is None
+    assert to_name("es") == "Spanish" and to_name("auto") is None
+    with pytest.raises(ValueError):
+        to_code("klingon")
+
+
+def test_backends_set_language():
+    from ldbench.backends.mlx import MlxAudioSTT, MlxWhisper
+
+    w = MlxWhisper.__new__(MlxWhisper)
+    w.options = {"language": "en", "temperature": 0.0}
+    w.set_language("Spanish")
+    assert w.options["language"] == "es"
+    w.set_language("auto")
+    assert "language" not in w.options
+
+    class QwenLike:
+        def generate(self, audio, *, language=None, max_tokens=512):
+            pass
+
+    class NoLanguage:
+        def generate(self, audio, *, max_tokens=512):
+            pass
+
+    q = MlxAudioSTT.__new__(MlxAudioSTT)
+    q.model, q.options = QwenLike(), {"language": "English"}
+    q.set_language("es")
+    assert q.options["language"] == "Spanish"
+    p = MlxAudioSTT.__new__(MlxAudioSTT)
+    p.model, p.options = NoLanguage(), {}
+    p.set_language("es")
+    assert p.options == {}

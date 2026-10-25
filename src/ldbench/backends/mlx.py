@@ -21,6 +21,15 @@ class MlxWhisper:
         }
         ModelHolder.get_model(local_path, mx.float16)  # load now so load time is measured
 
+    def set_language(self, language: str) -> None:
+        from ..languages import to_code
+
+        code = to_code(language)
+        if code is None:
+            self.options.pop("language", None)  # Whisper detects the language
+        else:
+            self.options["language"] = code
+
     def transcribe(self, audio_path: str) -> str:
         import mlx_whisper
 
@@ -36,6 +45,20 @@ class MlxAudioSTT:
 
         self.model = load(local_path)
         self.options = dict(model.options)
+
+    def set_language(self, language: str) -> None:
+        """For models that take a language name (e.g. Qwen3-ASR); others ignore it."""
+        import inspect
+
+        from ..languages import to_name
+
+        if "language" not in inspect.signature(self.model.generate).parameters:
+            return
+        name = to_name(language)
+        if name is None:
+            self.options.pop("language", None)
+        else:
+            self.options["language"] = name
 
     def transcribe(self, audio_path: str) -> str:
         return self.model.generate(audio_path, **self.options).text.strip()
