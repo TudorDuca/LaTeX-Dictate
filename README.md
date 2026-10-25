@@ -33,8 +33,12 @@ hf auth login                        # free Hugging Face account; needed if the 
    ```
 3. **Record your 20 formulas.** About 10 minutes. Open `data/own/prompts.html` to see each formula rendered, and say it the way you would naturally dictate it.
    ```bash
-   ldb record
+   ldb record                       # uses the default input at its native rate
+   ldb record --list-devices        # if the mic won't open: pick one with --device <index>
    ```
+   If the mic still won't open, check System Settings > Privacy & Security > Microphone for your terminal app.
+   Or record with Voice Memos or QuickTime and save each take as `data/own/audio/<id>.m4a`.
+   `ldb fetch` converts those files.
 4. **Run M0.** Expect about 15–20 GB of model downloads the first time. After that the run takes well under an hour.
    ```bash
    ldb all            # fetch the sample, run every system (one process each), score

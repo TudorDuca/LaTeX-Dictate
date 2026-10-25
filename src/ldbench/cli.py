@@ -54,9 +54,12 @@ def cmd_fetch(args) -> int:
 
 
 def cmd_record(args) -> int:
-    from .record import record
+    from .record import list_devices, record
 
-    stats = record(Path(args.dir), only=args.only, redo=args.redo)
+    if args.list_devices:
+        print(list_devices())
+        return 0
+    stats = record(Path(args.dir), only=args.only, redo=args.redo, device=args.device)
     print(f"\n{stats['sampled']['own']} recordings in manifest; missing: {stats['missing_recordings'] or 'none'}")
     return 0
 
@@ -119,6 +122,8 @@ def main(argv: list[str] | None = None) -> int:
     sp.add_argument("--dir", default="data/own")
     sp.add_argument("--only", action="append", help="only these formula ids (repeatable)")
     sp.add_argument("--redo", action="store_true", help="re-record existing files")
+    sp.add_argument("--device", help="input device index or name (see --list-devices)")
+    sp.add_argument("--list-devices", action="store_true", help="list audio devices and exit")
 
     sp = with_config(sub.add_parser("run", help="run one system"))
     sp.add_argument("--system", required=True)

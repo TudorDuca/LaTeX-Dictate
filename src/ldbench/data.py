@@ -455,16 +455,45 @@ def read_formulas(own_dir: Path) -> list[dict]:
     return rows
 
 
+# Recordings made elsewhere (Voice Memos, QuickTime, a phone) can be dropped into audio/ as
+# <id>.<ext>; they are converted to WAV with ffmpeg so every backend can read them.
+OTHER_AUDIO_EXTS = (".m4a", ".mp3", ".aiff", ".aif", ".caf", ".flac", ".ogg", ".webm")
+
+
+def convert_to_wav(src: Path, dst: Path) -> None:
+    import shutil
+    import subprocess
+
+    if shutil.which("ffmpeg") is None:
+        raise RuntimeError(f"ffmpeg is needed to convert {src.name} to WAV (brew install ffmpeg)")
+    subprocess.run(
+        ["ffmpeg", "-nostdin", "-loglevel", "error", "-y", "-i", str(src), "-ac", "1", "-ar", "16000", str(dst)],
+        check=True,
+    )
+
+
+def _local_wav(own_dir: Path, item_id: str) -> Path | None:
+    wav = own_dir / "audio" / f"{item_id}.wav"
+    if wav.exists():
+        return wav
+    for ext in OTHER_AUDIO_EXTS:
+        for src in (own_dir / "audio" / f"{item_id}{ext}", own_dir / "audio" / f"{item_id}{ext.upper()}"):
+            if src.exists():
+                convert_to_wav(src, wav)
+                return wav
+    return None
+
+
 def build_local_manifest(own_dir: Path) -> dict:
-    """Manifest for the formulas you have recorded so far (audio/<id>.wav)."""
+    """Manifest for the formulas you have recorded so far (audio/<id>.wav, or another format)."""
     own_dir = Path(own_dir)
     items = []
     missing = []
     for r in read_formulas(own_dir):
-        rel = Path("audio") / f"{r['id']}.wav"
-        if not (own_dir / rel).exists():
+        if _local_wav(own_dir, r["id"]) is None:
             missing.append(r["id"])
             continue
+        rel = Path("audio") / f"{r['id']}.wav"
         items.append(
             {
                 "id": r["id"],
