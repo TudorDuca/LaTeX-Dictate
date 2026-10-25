@@ -36,3 +36,13 @@ def test_paper_space_markers_become_spaces():
 def test_matrix_row_breaks_are_kept():
     raw = r"\begin{pmatrix}a&b\\c&d\end{pmatrix}\\x"
     assert clean_output(raw, "equations") == r"\begin{pmatrix}a&b\\c&d\end{pmatrix} x"
+
+
+def test_language_note_only_for_non_english():
+    from ldbench.prompts import text_messages
+
+    es = text_messages("zero-shot", "sentences", "si f de x", "Spanish")[0]["content"]
+    en = text_messages("zero-shot", "sentences", "if f of x", "English")[0]["content"]
+    bench = text_messages("zero-shot", "sentences", "if f of x")[0]["content"]
+    assert "in Spanish" in es and "never translate" in es
+    assert en == bench and "never translate" not in bench

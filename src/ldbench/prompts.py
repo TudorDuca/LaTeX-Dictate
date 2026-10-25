@@ -43,14 +43,22 @@ E2E_PROMPT = {
 }
 
 
-def text_messages(style: str, task: str, transcript: str) -> list[dict]:
+LANGUAGE_NOTE = ("The transcript is in {name}. Write your reply in {name}, keeping the speaker's words; "
+                 "never translate them into another language.")
+
+
+def text_messages(style: str, task: str, transcript: str, language: str | None = None) -> list[dict]:
+    """`language`: a non-English speech language (name) for dictation; the benchmark leaves it unset."""
     if style == "paper":
         return [
             {"role": "system", "content": PAPER_SYSTEM},
             {"role": "user", "content": PAPER_USER.format(transcript=transcript)},
         ]
+    system = ZERO_SHOT_SYSTEM[task]
+    if language and language != "English":
+        system += "\n" + LANGUAGE_NOTE.format(name=language)
     return [
-        {"role": "system", "content": ZERO_SHOT_SYSTEM[task]},
+        {"role": "system", "content": system},
         {"role": "user", "content": ZERO_SHOT_USER.format(transcript=transcript)},
     ]
 

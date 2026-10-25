@@ -45,6 +45,7 @@ class Pipeline:
             raise SystemExit(f"unknown system {system_name!r}; choose from {sorted(cfg.systems)}")
         self.system = cfg.systems[system_name]
         self.task = task
+        self.language: str | None = None  # speech language name, set by main() for --language
         self.mixed = task == "mixed"
         model_task = "sentences" if self.mixed else task
         if self.system.asr and self.system.asr.startswith(COLUMN_PREFIX):
@@ -92,7 +93,7 @@ class Pipeline:
         if self.text is None:
             raw = transcript
         else:
-            messages = text_messages(self.system.prompt, self.task, transcript)
+            messages = text_messages(self.system.prompt, self.task, transcript, self.language)
             raw = self.text.generate(messages, max_tokens_for(transcript, self.system.max_tokens))
         return {"transcript": transcript, "raw": raw, "latex": clean_output(raw, self.task),
                 "asr_s": t1 - t0, "gen_s": time.perf_counter() - t1}
@@ -414,6 +415,10 @@ def main(cfg: Config, system: str, task: str, mode: str, hotkey: str | None, wra
     pipeline = Pipeline(cfg, system, task)
     if language and pipeline.asr is not None and hasattr(pipeline.asr, "set_language"):
         pipeline.asr.set_language(language)
+    if language:
+        from .languages import to_name
+
+        pipeline.language = to_name(language)  # None for auto: the converter follows the transcript
     silence = Path(tempfile.gettempdir()) / "ldb-dictate-warmup.wav"
     import numpy as np
 
