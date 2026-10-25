@@ -25,3 +25,14 @@ def test_clean_equations(raw, expected):
 
 def test_clean_sentences_keeps_dollars():
     assert clean_output("Let $x=1$ hold.", "sentences") == "Let $x=1$ hold."
+
+
+def test_paper_space_markers_become_spaces():
+    raw = r"Integrating by parts $\int\\xe^{x}dx=x\\e^{x}-\int\\e^{x}dx=x\\e^{x}-e^{x}+C$."
+    assert clean_output(raw, "sentences") == r"Integrating by parts $\int xe^{x}dx=x e^{x}-\int e^{x}dx=x e^{x}-e^{x}+C$."
+    assert clean_output(r"\csc\\x=\frac{1}{\sin\\x}", "equations") == r"\csc x=\frac{1}{\sin x}"
+
+
+def test_matrix_row_breaks_are_kept():
+    raw = r"\begin{pmatrix}a&b\\c&d\end{pmatrix}\\x"
+    assert clean_output(raw, "equations") == r"\begin{pmatrix}a&b\\c&d\end{pmatrix} x"
