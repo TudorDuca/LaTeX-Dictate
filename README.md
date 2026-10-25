@@ -72,6 +72,27 @@ hf auth login                        # free Hugging Face account; needed if the 
 - p50/p95 latency and peak memory per model.
 - The M0 gate checks: ≤12 GB peak memory and ≤3 s p95 latency.
 
+## Try it: push-to-talk maths dictation
+
+Hold a key, say a formula, let go, and the LaTeX lands on your clipboard or is pasted into the app you're in.
+The default is Whisper-turbo plus the paper's fine-tuned model, the best system in M0, running fully on-device.
+
+```bash
+uv pip install -e '.[mac,dictate]'
+ldb dictate --paste                 # hold right Option (⌥), speak, release
+```
+
+- **First run:** macOS asks for **Microphone** access. Allow it.
+- **Hotkeys and pasting** need your terminal app enabled under System Settings > Privacy & Security > **Accessibility**, and also under **Input Monitoring**. Restart the terminal after enabling it.
+- **Options:**
+  - `--wrap inline` gives `$...$`; `--wrap display` gives `\[...\]`.
+  - `--mode toggle` uses press-to-start, press-to-stop (default hotkey `<ctrl>+<alt>+m`). `--hotkey` sets any combination.
+  - `--mode terminal` uses Enter in the terminal window and needs no Accessibility permission.
+  - `--task sentences` handles prose with inline maths.
+- **Other models:** any system from `configs/m0.toml`, for example `ldb dictate --system qwen3-4b@whisper-turbo`.
+- **What it costs to run:** it keeps about 8.4 GB of models in memory while running, so quit with Ctrl+C when you're done. Each dictation takes about 1 s.
+- **Logging:** each dictation is logged locally to `runs/dictate/log.jsonl`. `--save-audio` also keeps the recordings under `data/dictations/audio/`. Neither is committed to git. Your own takes are useful test data later.
+
 ## Layout
 
 ```

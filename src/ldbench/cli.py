@@ -1,4 +1,4 @@
-"""Command line: ldb doctor | fetch | record | run | score | all."""
+"""Command line: ldb doctor | fetch | record | run | score | all | dictate."""
 
 from __future__ import annotations
 
@@ -85,6 +85,15 @@ def cmd_run(args) -> int:
     return 0
 
 
+def cmd_dictate(args) -> int:
+    from .dictate import main as dictate_main
+
+    cfg = load_config(args.config)
+    dictate_main(cfg, args.system, args.task, args.mode, args.hotkey, args.wrap, args.paste,
+                 args.device, args.save_audio, not args.no_sound)
+    return 0
+
+
 def cmd_score(args) -> int:
     from .report import compute, write_report
 
@@ -150,6 +159,20 @@ def main(argv: list[str] | None = None) -> int:
 
     with_config(sub.add_parser("score", help="score predictions and write the report"))
 
+    sp = with_config(sub.add_parser("dictate", help="push-to-talk: speak maths, get LaTeX in any app"))
+    sp.add_argument("--system", default="paper@whisper-turbo", help="any non-oracle system from the config")
+    sp.add_argument("--task", choices=["equations", "sentences"], default="equations")
+    sp.add_argument("--mode", choices=["hold", "toggle", "terminal"], default="hold",
+                    help="hold the hotkey while speaking (default), press to start/stop, or Enter in the terminal")
+    sp.add_argument("--hotkey", help="pynput syntax; default <alt_r> (right Option) for hold, "
+                                     "<ctrl>+<alt>+m for toggle")
+    sp.add_argument("--paste", action="store_true", help="also paste into the focused app (Cmd+V)")
+    sp.add_argument("--wrap", choices=["none", "inline", "display"], default="none",
+                    help="wrap the output in $...$ (inline) or \\[...\\] (display)")
+    sp.add_argument("--device", help="input device index or name (see ldb record --list-devices)")
+    sp.add_argument("--save-audio", action="store_true", help="keep each take under data/dictations/audio/")
+    sp.add_argument("--no-sound", action="store_true", help="no start/stop sounds")
+
     sp = with_config(sub.add_parser("all", help="fetch + run every system + score"))
     sp.add_argument("--system", action="append", help="only these systems (repeatable)")
     sp.add_argument("--limit", type=int)
@@ -157,7 +180,7 @@ def main(argv: list[str] | None = None) -> int:
 
     args = p.parse_args(argv)
     handler = {"doctor": cmd_doctor, "fetch": cmd_fetch, "record": cmd_record, "run": cmd_run,
-               "score": cmd_score, "all": cmd_all}[args.command]
+               "score": cmd_score, "all": cmd_all, "dictate": cmd_dictate}[args.command]
     return handler(args)
 
 
