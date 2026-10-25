@@ -1,6 +1,6 @@
 # LaTeX-Dictate — Project Plan
 
-**Status:** v2. Decisions are locked (§11). No code yet. This document decides what gets built.
+**Status:** v2. Decisions are locked (§11). **M0 is done and the gate passed.** See [M0_RESULTS.md](M0_RESULTS.md) for results, findings and the changes they imply for M1.
 
 **One line:** speak mathematics, get correct LaTeX, using **open models that run on a laptop**.
 
@@ -135,7 +135,7 @@ The plan uses milestones rather than weeks, because time is free time and AI pai
 
 | Milestone | What gets done | Your sessions | Machine time | Done when |
 |---|---|---|---|---|
-| **M0 Feasibility** | Stream test-split samples (check access, columns, sizes, audio format). Run 50 clips through 3 systems. Measure RAM and latency on the M5. Pin model versions. Record 20 of your own formulas | 1 | about 1 h | The pipeline works end to end. Local inference uses ≤12 GB RAM and ≤3 s per formula. First RQ1 numbers exist |
+| **M0 Feasibility** ✅ | Stream test-split samples (check access, columns, sizes, audio format). Run 50 clips through 3 systems. Measure RAM and latency on the M5. Pin model versions. Record 20 of your own formulas | 1 | about 1 h | The pipeline works end to end. Local inference uses ≤12 GB RAM and ≤3 s per formula. First RQ1 numbers exist |
 | **M1 Benchmark** | Harness with per-stage caching and resumable runs. About 500 human + 250 TTS equations and 300 human sentences. The cross-design matrix. Reproduce the paper's numbers | 1–2 | 1–2 overnight runs | Reproduction is within ±3 CER points of the paper. The RQ1 table has confidence intervals |
 | **M2 Errors + natural speech** | AI-assisted labelling of about 200 errors, verified by you. **NaturalDictation-100:** 100–200 unscripted formulas from 5–10 speakers, with consent forms | 2–3 | small | Taxonomy done (RQ2). Gap between scripted and natural speech measured (RQ4) |
 | **M3 On-device model** | Improve the text step: prompting, then retrieved few-shot examples, then LoRA on the M5. Speech-model LoRA on Kaggle. Each step is kept only if it helps | 3–5 | several training runs, each a few hours | RQ3 answered. Best model published with a model card |

@@ -110,3 +110,11 @@ def test_median_item_cer_ignores_one_runaway():
     runaway = score_item("1,0,0,0,0,0,0,0,0,0,0,0", "R", "equations")["latex"]
     assert corpus_rates(good + [runaway])["cer"] > 1.0
     assert median_item_cer(good + [runaway]) == 0.0
+
+
+def test_capped_cer_bounds_each_item():
+    good = score_item("x+1", "x+1", "equations")["latex"]
+    refusal = score_item("The transcript does not contain mathematics", "x", "equations")["latex"]
+    rates = corpus_rates([good, refusal])
+    assert rates["cer"] > 5
+    assert rates["capped_cer"] == pytest.approx(1 / 4)

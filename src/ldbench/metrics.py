@@ -189,6 +189,8 @@ def corpus_rates(scores: list[ItemScore]) -> dict[str, float]:
     tok = sum(s.tok_len for s in scores)
     return {
         "cer": sum(s.edits for s in scores) / ref if ref else float("nan"),
+        # Each item's errors capped at its reference length, so one runaway or refusal costs at most 100%.
+        "capped_cer": sum(min(s.edits, s.ref_len) for s in scores) / ref if ref else float("nan"),
         "ter": sum(s.tok_edits for s in scores) / tok if tok else float("nan"),
         "exact": sum(s.exact for s in scores) / len(scores) if scores else float("nan"),
     }

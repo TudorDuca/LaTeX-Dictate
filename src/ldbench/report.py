@@ -194,7 +194,8 @@ def render_markdown(cfg: Config, results: dict) -> str:
                   f"Python {env.get('python')}. Generated {env.get('timestamp')}.", ""]
     lines += ["CER is corpus-level on normalized LaTeX (see `src/ldbench/metrics.py`), against the dataset's raw "
               "LaTeX (`sentence`); *vs norm. ref* repeats it against the dataset's `sentence_normalized` column. "
-              "*Median* is the median per-item CER, robust to a single runaway output. Not yet directly "
+              "*Median* is the median per-item CER and *Capped* caps each item's CER at 100%; both are robust to a "
+              "single runaway output or refusal. Not yet directly "
               "comparable with the paper's published numbers (different normalizer and sample).", ""]
 
     gates = results["gates"]
@@ -210,10 +211,10 @@ def render_markdown(cfg: Config, results: dict) -> str:
         lines += [f"## {name} ({task}, {split['n_items']} items)", ""]
         groups = sorted({g for r in split["systems"].values() if r.get("status") == "ok"
                          for g in r["headline"]["cer_by_group"]})
-        head = ["System", "n", f"{metric} (95% CI)", "Median", "vs norm. ref", *[f"{metric} {g}" for g in groups],
-                "Token ER", "Exact", "Renders", "Latency p50 / p95 (s)", "Peak mem (GB)", "Load (s)"]
+        head = ["System", "n", f"{metric} (95% CI)", "Median", "Capped", "vs norm. ref",
+                *[f"{metric} {g}" for g in groups], "Exact", "Renders", "Latency p50 / p95 (s)", "Peak mem (GB)", "Load (s)"]
         if task == "sentences":
-            head.insert(5, "full-text CER")
+            head.insert(6, "full-text CER")
         lines += ["| " + " | ".join(head) + " |", "|" + "---|" * len(head)]
         for sys_name, r in split["systems"].items():
             if r.get("status") != "ok":
@@ -222,14 +223,15 @@ def render_markdown(cfg: Config, results: dict) -> str:
             h = r["headline"]
             row = [sys_name, str(r["n"]),
                    f"{_fmt(h['cer'], pct=True)} ({_fmt(h['cer_ci'][0], pct=True)}–{_fmt(h['cer_ci'][1], pct=True)})",
-                   _fmt(h["median_item_cer"], pct=True), _fmt(r["headline_vs_normalized_ref"]["cer"], pct=True),
+                   _fmt(h["median_item_cer"], pct=True), _fmt(h["capped_cer"], pct=True),
+                   _fmt(r["headline_vs_normalized_ref"]["cer"], pct=True),
                    *[_fmt(h["cer_by_group"].get(g), pct=True) for g in groups],
-                   _fmt(h["ter"], pct=True), _fmt(h["exact"], pct=True), _fmt(r["render_rate"], pct=True),
+                   _fmt(h["exact"], pct=True), _fmt(r["render_rate"], pct=True),
                    f"{_fmt(r['latency_p50_s'])} / {_fmt(r['latency_p95_s'])}"
                    + ("*" if r["latency_scope"].startswith("text") else ""),
                    _fmt(r["peak_memory_gb"]), _fmt(r["load_s"], digits=1)]
             if task == "sentences":
-                row.insert(5, _fmt(r["views"]["full"]["cer"], pct=True))
+                row.insert(6, _fmt(r["views"]["full"]["cer"], pct=True))
             lines.append("| " + " | ".join(row) + " |")
         lines += ["", "\\* latency of the text step only (the transcript comes from the dataset).", ""]
 

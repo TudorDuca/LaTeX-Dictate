@@ -7,7 +7,7 @@ using the open [Speech-to-LaTeX](https://github.com/dkorzh10/speech2latex) datas
 It then fine-tunes a small on-device model for Apple Silicon and turns it into a push-to-talk demo.
 
 - **Plan:** [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md). It covers the research questions, scope, milestones, targets and the $0 resource plan.
-- **Status:** M0 (feasibility). The harness is ready and waiting for its first run on an M5 MacBook.
+- **Status:** M0 (feasibility) is done and the gate passed. See [docs/M0_RESULTS.md](docs/M0_RESULTS.md). The paper's fine-tuned 1.5B model is far ahead of open models without fine-tuning, everything runs within 8.4 GB at ≤2 s per formula, and fine-tuning becomes the core of the project. Next: M1, the full benchmark.
 
 ## Setup (macOS, Apple Silicon)
 

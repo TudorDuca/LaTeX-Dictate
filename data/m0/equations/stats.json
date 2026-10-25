@@ -29,7 +29,7 @@
     "16000": 1,
     "24000": 10
   },
-  "mean_duration_s": 8954.22,
+  "mean_duration_s": 7.22,
   "columns": [
     "spk: string",
     "language: string",

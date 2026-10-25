@@ -2,7 +2,7 @@
 
 Machine: Apple M5, 17.2 GB, macOS 26.6.2, Python 3.12.14. Generated 2026-10-25T12:27:30+00:00.
 
-CER is corpus-level on normalized LaTeX (see `src/ldbench/metrics.py`), against the dataset's raw LaTeX (`sentence`); *vs norm. ref* repeats it against the dataset's `sentence_normalized` column. *Median* is the median per-item CER, robust to a single runaway output. Not yet directly comparable with the paper's published numbers (different normalizer and sample).
+CER is corpus-level on normalized LaTeX (see `src/ldbench/metrics.py`), against the dataset's raw LaTeX (`sentence`); *vs norm. ref* repeats it against the dataset's `sentence_normalized` column. *Median* is the median per-item CER and *Capped* caps each item's CER at 100%; both are robust to a single runaway output or refusal. Not yet directly comparable with the paper's published numbers (different normalizer and sample).
 
 ## Gate checks: PASS
 
@@ -25,40 +25,40 @@ CER is corpus-level on normalized LaTeX (see `src/ldbench/metrics.py`), against 
 
 ## equations (equations, 50 items)
 
-| System | n | CER (95% CI) | Median | vs norm. ref | CER human | CER tts | Token ER | Exact | Renders | Latency p50 / p95 (s) | Peak mem (GB) | Load (s) |
+| System | n | CER (95% CI) | Median | Capped | vs norm. ref | CER human | CER tts | Exact | Renders | Latency p50 / p95 (s) | Peak mem (GB) | Load (s) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| whisper-raw | 50 | 153.1% (132.5%–177.1%) | 162.1% | 147.7% | 146.1% | 181.0% | 281.6% | 0.0% | 100.0% | 0.37 / 0.42 | 2.19 | 1.3 |
-| paper@dataset-asr | 50 | 50.8% (21.0%–106.0%) | 20.5% | 45.9% | 43.9% | 78.2% | 63.4% | 32.0% | 100.0% | 0.48 / 0.99* | 6.26 | 2.6 |
-| paper@whisper-turbo | 50 | 23.5% (16.3%–32.1%) | 14.7% | 19.4% | 18.7% | 42.5% | 24.8% | 36.0% | 100.0% | 0.85 / 1.20 | 8.44 | 3.9 |
-| qwen3-4b@whisper-turbo | 50 | 75.8% (46.3%–119.3%) | 42.7% | 76.6% | 50.7% | 175.4% | 100.0% | 16.0% | 98.0% | 0.82 / 1.20 | 4.79 | 2.9 |
-| qwen3-4b@oracle | 50 | 36.8% (24.8%–48.1%) | 25.6% | 38.6% | 33.2% | 51.2% | 39.7% | 32.0% | 100.0% | 0.42 / 0.66* | 2.61 | 1.6 |
-| qwen2-audio@e2e | 50 | 82.6% (74.6%–93.1%) | 82.4% | 82.8% | 84.0% | 77.0% | 91.7% | 4.0% | 94.0% | 1.47 / 2.02 | 7.56 | 4.2 |
+| whisper-raw | 50 | 153.1% (132.5%–177.1%) | 162.1% | 93.5% | 147.7% | 146.1% | 181.0% | 0.0% | 100.0% | 0.37 / 0.42 | 2.19 | 1.3 |
+| paper@dataset-asr | 50 | 50.8% (21.0%–106.0%) | 20.5% | 26.4% | 45.9% | 43.9% | 78.2% | 32.0% | 100.0% | 0.48 / 0.99* | 6.26 | 2.6 |
+| paper@whisper-turbo | 50 | 23.5% (16.3%–32.1%) | 14.7% | 22.5% | 19.4% | 18.7% | 42.5% | 36.0% | 100.0% | 0.85 / 1.20 | 8.44 | 3.9 |
+| qwen3-4b@whisper-turbo | 50 | 75.8% (46.3%–119.3%) | 42.7% | 49.5% | 76.6% | 50.7% | 175.4% | 16.0% | 98.0% | 0.82 / 1.20 | 4.79 | 2.9 |
+| qwen3-4b@oracle | 50 | 36.8% (24.8%–48.1%) | 25.6% | 36.5% | 38.6% | 33.2% | 51.2% | 32.0% | 100.0% | 0.42 / 0.66* | 2.61 | 1.6 |
+| qwen2-audio@e2e | 50 | 82.6% (74.6%–93.1%) | 82.4% | 77.2% | 82.8% | 84.0% | 77.0% | 4.0% | 94.0% | 1.47 / 2.02 | 7.56 | 4.2 |
 
 \* latency of the text step only (the transcript comes from the dataset).
 
 ## sentences (sentences, 10 items)
 
-| System | n | equation CER (95% CI) | Median | vs norm. ref | full-text CER | equation CER human | Token ER | Exact | Renders | Latency p50 / p95 (s) | Peak mem (GB) | Load (s) |
+| System | n | equation CER (95% CI) | Median | Capped | vs norm. ref | full-text CER | equation CER human | Exact | Renders | Latency p50 / p95 (s) | Peak mem (GB) | Load (s) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| whisper-raw | 10 | 100.0% (100.0%–100.0%) | 100.0% | 100.0% | 19.2% | 100.0% | 100.0% | 0.0% | — | 0.40 / 0.50 | 2.19 | 1.3 |
-| paper@dataset-asr | 10 | 60.4% (36.4%–75.4%) | 46.6% | 51.0% | 15.9% | 60.4% | 94.1% | 10.0% | 95.0% | 0.82 / 4.38* | 6.26 | 0.9 |
-| paper@whisper-turbo | 10 | 59.7% (32.6%–74.9%) | 46.6% | 51.0% | 22.9% | 59.7% | 88.2% | 20.0% | 94.7% | 1.22 / 4.96 | 8.45 | 2.2 |
-| qwen3-4b@whisper-turbo | 10 | 50.7% (20.0%–70.8%) | 19.6% | 52.3% | 14.0% | 50.7% | 58.8% | 30.0% | 100.0% | 1.08 / 1.66 | 4.79 | 2.9 |
-| qwen3-4b@oracle | 10 | 39.6% (4.9%–60.0%) | 0.0% | 45.6% | 10.8% | 39.6% | 47.1% | 60.0% | 100.0% | 0.70 / 1.18* | 2.61 | 1.6 |
-| qwen2-audio@e2e | 10 | 123.9% (79.1%–226.2%) | 95.0% | 120.8% | 32.5% | 123.9% | 129.4% | 20.0% | 100.0% | 2.51 / 3.27 | 7.56 | 4.2 |
+| whisper-raw | 10 | 100.0% (100.0%–100.0%) | 100.0% | 100.0% | 100.0% | 19.2% | 100.0% | 0.0% | — | 0.40 / 0.50 | 2.19 | 1.3 |
+| paper@dataset-asr | 10 | 60.4% (36.4%–75.4%) | 46.6% | 60.4% | 51.0% | 15.9% | 60.4% | 10.0% | 95.0% | 0.82 / 4.38* | 6.26 | 0.9 |
+| paper@whisper-turbo | 10 | 59.7% (32.6%–74.9%) | 46.6% | 59.7% | 51.0% | 22.9% | 59.7% | 20.0% | 94.7% | 1.22 / 4.96 | 8.45 | 2.2 |
+| qwen3-4b@whisper-turbo | 10 | 50.7% (20.0%–70.8%) | 19.6% | 50.7% | 52.3% | 14.0% | 50.7% | 30.0% | 100.0% | 1.08 / 1.66 | 4.79 | 2.9 |
+| qwen3-4b@oracle | 10 | 39.6% (4.9%–60.0%) | 0.0% | 39.6% | 45.6% | 10.8% | 39.6% | 60.0% | 100.0% | 0.70 / 1.18* | 2.61 | 1.6 |
+| qwen2-audio@e2e | 10 | 123.9% (79.1%–226.2%) | 95.0% | 82.8% | 120.8% | 32.5% | 123.9% | 20.0% | 100.0% | 2.51 / 3.27 | 7.56 | 4.2 |
 
 \* latency of the text step only (the transcript comes from the dataset).
 
 ## own (equations, 20 items)
 
-| System | n | CER (95% CI) | Median | vs norm. ref | CER own | Token ER | Exact | Renders | Latency p50 / p95 (s) | Peak mem (GB) | Load (s) |
+| System | n | CER (95% CI) | Median | Capped | vs norm. ref | CER own | Exact | Renders | Latency p50 / p95 (s) | Peak mem (GB) | Load (s) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| whisper-raw | 20 | 136.5% (117.3%–163.3%) | 139.4% | 136.5% | 136.5% | 249.3% | 0.0% | 100.0% | 0.37 / 0.41 | 2.19 | 1.3 |
+| whisper-raw | 20 | 136.5% (117.3%–163.3%) | 139.4% | 95.0% | 136.5% | 136.5% | 0.0% | 100.0% | 0.37 / 0.41 | 2.19 | 1.3 |
 | paper@dataset-asr | skipped: split has no 'whisper_text' column | | | | | | | | | | |
-| paper@whisper-turbo | 20 | 12.5% (6.2%–19.3%) | 0.0% | 12.5% | 12.5% | 9.3% | 60.0% | 100.0% | 0.94 / 1.25 | 8.44 | 3.9 |
-| qwen3-4b@whisper-turbo | 20 | 31.4% (16.9%–46.6%) | 18.5% | 31.4% | 31.4% | 25.8% | 30.0% | 100.0% | 0.89 / 1.18 | 4.79 | 2.9 |
+| paper@whisper-turbo | 20 | 12.5% (6.2%–19.3%) | 0.0% | 12.5% | 12.5% | 12.5% | 60.0% | 100.0% | 0.94 / 1.25 | 8.44 | 3.9 |
+| qwen3-4b@whisper-turbo | 20 | 31.4% (16.9%–46.6%) | 18.5% | 31.4% | 31.4% | 31.4% | 30.0% | 100.0% | 0.89 / 1.18 | 4.79 | 2.9 |
 | qwen3-4b@oracle | skipped: split has no 'pronunciation' column | | | | | | | | | | |
-| qwen2-audio@e2e | 20 | 56.7% (42.1%–69.3%) | 58.3% | 56.7% | 56.7% | 56.7% | 10.0% | 90.0% | 1.56 / 2.04 | 7.56 | 4.2 |
+| qwen2-audio@e2e | 20 | 56.7% (42.1%–69.3%) | 58.3% | 56.5% | 56.7% | 56.7% | 10.0% | 90.0% | 1.56 / 2.04 | 7.56 | 4.2 |
 
 \* latency of the text step only (the transcript comes from the dataset).
 
