@@ -57,3 +57,8 @@ def text_messages(style: str, task: str, transcript: str) -> list[dict]:
 
 def e2e_prompt(task: str) -> str:
     return E2E_PROMPT[task]
+
+
+def max_tokens_for(transcript: str, cap: int) -> int:
+    """Bound generation by the length of what was said, so a repetition loop stays short."""
+    return min(cap, 32 + 6 * len(transcript.split()))

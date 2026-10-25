@@ -13,8 +13,11 @@ def test_shipped_configs_load(name):
     assert cfg.systems and cfg.models and cfg.splits
     for system in cfg.systems.values():
         for split in cfg.splits.values():
-            if system.text is not None:
-                assert system.text_model_for(split.task) in cfg.models
+            # a system may cover only some tasks (split-then-convert is sentences-only)
+            model = system.text_model_for(split.task)
+            assert model is None or model in cfg.models
+            if system.segmenter:
+                assert system.segmenter in cfg.models
 
 
 def test_unknown_model_is_rejected(tmp_path):

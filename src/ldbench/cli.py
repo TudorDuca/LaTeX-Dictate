@@ -89,7 +89,8 @@ def cmd_dictate(args) -> int:
     from .dictate import main as dictate_main
 
     cfg = load_config(args.config)
-    dictate_main(cfg, args.system, args.task, args.mode, args.hotkey, args.wrap, args.output,
+    system = args.system or ("split@whisper-turbo" if args.task == "mixed" else "paper@whisper-turbo")
+    dictate_main(cfg, system, args.task, args.mode, args.hotkey, args.wrap, args.output,
                  args.device, args.save_audio, not args.no_sound)
     return 0
 
@@ -160,8 +161,11 @@ def main(argv: list[str] | None = None) -> int:
     with_config(sub.add_parser("score", help="score predictions and write the report"))
 
     sp = with_config(sub.add_parser("dictate", help="push-to-talk: speak maths, get LaTeX in any app"))
-    sp.add_argument("--system", default="paper@whisper-turbo", help="any non-oracle system from the config")
-    sp.add_argument("--task", choices=["equations", "sentences"], default="equations")
+    sp.add_argument("--system", help="any non-oracle system from the config (default: paper@whisper-turbo, "
+                                      "or split@whisper-turbo for --task mixed)")
+    sp.add_argument("--task", choices=["equations", "sentences", "mixed"], default="equations",
+                    help="equations: one formula; mixed: talk normally, maths becomes inline $...$ "
+                         "(split-then-convert); sentences: the paper's sentence model")
     sp.add_argument("--mode", choices=["hold", "toggle", "terminal"], default="hold",
                     help="hold the hotkey while speaking (default), press to start/stop, or Enter in the terminal")
     sp.add_argument("--hotkey", help="pynput syntax; default <alt_r> (right Option) for hold, "

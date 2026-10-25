@@ -90,6 +90,20 @@ name = "qwen2-audio@e2e"             # open end-to-end audio LLM, zero-shot
 e2e = "qwen2-audio"
 max_tokens = 384
 
+[[systems]]
+name = "split@dataset-asr"           # split-then-convert on the dataset's transcripts (vs paper@dataset-asr)
+asr = "column:whisper_text"
+segmenter = "qwen3-4b"               # marks the maths spans; prose is kept verbatim from the transcript
+text = { sentences = "paper-eq" }    # converts each span
+prompt = "paper"
+
+[[systems]]
+name = "split@whisper-turbo"         # the same on our transcripts; `ldb dictate --task mixed` uses this
+asr = "whisper-turbo"
+segmenter = "qwen3-4b"
+text = { sentences = "paper-eq" }
+prompt = "paper"
+
 # ---------------------------------------------------------------- M0 gates
 
 [gates]

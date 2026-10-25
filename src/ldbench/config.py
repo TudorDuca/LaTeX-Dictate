@@ -41,6 +41,8 @@ class SystemCfg:
     e2e: str | None = None
     prompt: str = "zero-shot"
     max_tokens: int = 256
+    # Split-then-convert for sentences: this LLM marks the maths spans, which the text model converts.
+    segmenter: str | None = None
 
     def text_model_for(self, task: str) -> str | None:
         if self.text is None:
@@ -138,6 +140,7 @@ def load_config(path: str | Path) -> Config:
             e2e=s.get("e2e"),
             prompt=s.get("prompt", "zero-shot"),
             max_tokens=int(s.get("max_tokens", 256)),
+            segmenter=s.get("segmenter"),
         )
         _validate_system(system, models)
         systems[system.name] = system
@@ -169,5 +172,9 @@ def _validate_system(system: SystemCfg, models: dict[str, ModelCfg]) -> None:
     for model_name in (system.text or {}).values():
         if model_name not in models:
             raise ValueError(f"system {system.name}: unknown text model {model_name!r}")
+    if system.segmenter and system.segmenter not in models:
+        raise ValueError(f"system {system.name}: unknown segmenter model {system.segmenter!r}")
+    if system.segmenter and not system.asr:
+        raise ValueError(f"system {system.name}: a segmenter needs an 'asr' transcript")
     if system.prompt not in ("zero-shot", "paper"):
         raise ValueError(f"system {system.name}: unknown prompt style {system.prompt!r}")

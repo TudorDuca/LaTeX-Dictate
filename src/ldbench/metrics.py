@@ -163,7 +163,18 @@ def score_item(pred: str, ref: str, task: str) -> dict[str, ItemScore]:
             full_p == full_r,
         ),
         "formulas": _score_strings(sentence_formulas(pred), sentence_formulas(ref)),
+        "prose": _score_words(sentence_prose(pred), sentence_prose(ref)),
     }
+
+
+def sentence_prose(text: str) -> str:
+    """The words outside $...$, normalized: what a split-then-convert system should keep verbatim."""
+    return normalize_text(" ".join(split_inline_math(text)[0]))
+
+
+def _score_words(p: str, r: str) -> ItemScore:
+    pt, rt = p.split(), r.split()
+    return ItemScore(Levenshtein.distance(p, r), len(r), Levenshtein.distance(pt, rt), len(rt), pt == rt)
 
 
 def _score_formula(pred: str, ref: str) -> ItemScore:

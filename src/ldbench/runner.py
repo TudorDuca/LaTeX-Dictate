@@ -23,7 +23,8 @@ from .backends import mlx as mlx_mem
 from .config import COLUMN_PREFIX, Config, ModelCfg, SplitCfg, SystemCfg
 from .data import read_manifest
 from .postprocess import clean_output
-from .prompts import e2e_prompt, text_messages
+from .mixed import convert_mixed, span_converter
+from .prompts import e2e_prompt, max_tokens_for, text_messages
 from .sysinfo import environment
 
 # Files fetched from model repos. Covers MLX checkpoints and transformers-format repos.
@@ -194,7 +195,10 @@ def run_system(cfg: Config, system_name: str, split_names: list[str] | None = No
             else:
                 if not system.asr.startswith(COLUMN_PREFIX):
                     pool.release(system.asr)  # measure each model's peak separately
-                _run_text(pool, system, split, text_model, todo, transcripts, pred_path)
+                if system.segmenter and split.task == "sentences":
+                    _run_mixed(pool, system, split, text_model, todo, transcripts, pred_path)
+                else:
+                    _run_text(pool, system, split, text_model, todo, transcripts, pred_path)
         meta["splits"][split.name] = {"items": len(items), "new_predictions": len(todo)}
 
     meta_path.parent.mkdir(parents=True, exist_ok=True)
@@ -220,6 +224,28 @@ def _run_text(pool: ModelPool, system: SystemCfg, split: SplitCfg, model_name: s
             "total_s": round(sec + (asr_s or 0.0), 4) if asr_s is not None else None,
         })
     pool.record_peak(model_name)
+
+
+def _run_mixed(pool: ModelPool, system: SystemCfg, split: SplitCfg, converter_name: str,
+               todo: list[dict], transcripts: dict[str, dict], pred_path: Path) -> None:
+    """Split-then-convert: the segmenter marks maths spans, the converter turns each into LaTeX."""
+    if not todo:
+        return
+    segmenter = pool.get(system.segmenter, TEXT_KINDS)
+    converter = pool.get(converter_name, TEXT_KINDS)
+    convert_span = span_converter(converter, system.prompt, lambda t: max_tokens_for(t, system.max_tokens))
+    convert_mixed(transcripts[todo[0]["id"]]["text"], segmenter.generate, convert_span)  # warm-up
+    for item in tqdm(todo, desc=f"{split.name}: {system.name}", unit="item"):
+        t = transcripts[item["id"]]
+        out, sec = _timed(convert_mixed, t["text"], segmenter.generate, convert_span)
+        asr_s = t["sec"]
+        _append(pred_path, {
+            "id": item["id"], "pred": out["text"], "raw": out["tagged"], "spans": out["spans"],
+            "transcript": t["text"], "asr_s": asr_s, "gen_s": round(sec, 4),
+            "total_s": round(sec + (asr_s or 0.0), 4) if asr_s is not None else None,
+        })
+    pool.record_peak(system.segmenter)
+    pool.record_peak(converter_name)
 
 
 def _run_e2e(pool: ModelPool, system: SystemCfg, split: SplitCfg, split_dir: Path,

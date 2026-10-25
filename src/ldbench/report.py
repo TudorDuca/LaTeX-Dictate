@@ -45,6 +45,8 @@ def _memory(models: dict, system: SystemCfg, task: str) -> float | None:
         names.append(system.asr)
     if system.text_model_for(task):
         names.append(system.text_model_for(task))
+    if system.segmenter and task == "sentences":
+        names.append(system.segmenter)
     peaks = [models.get(n, {}).get("peak_memory_gb") for n in names]
     if not peaks or any(p is None for p in peaks):
         return None
@@ -52,7 +54,9 @@ def _memory(models: dict, system: SystemCfg, task: str) -> float | None:
 
 
 def _load_s(models: dict, system: SystemCfg, task: str) -> float | None:
-    names = [n for n in (system.e2e, system.asr, system.text_model_for(task)) if n and not n.startswith(COLUMN_PREFIX)]
+    segmenter = system.segmenter if task == "sentences" else None
+    names = [n for n in (system.e2e, system.asr, system.text_model_for(task), segmenter)
+             if n and not n.startswith(COLUMN_PREFIX)]
     vals = [models.get(n, {}).get("load_s") for n in names]
     return round(sum(vals), 1) if vals and all(v is not None for v in vals) else None
 
@@ -195,7 +199,8 @@ def render_markdown(cfg: Config, results: dict) -> str:
     lines += ["CER is corpus-level on normalized LaTeX (see `src/ldbench/metrics.py`), against the dataset's raw "
               "LaTeX (`sentence`); *vs norm. ref* repeats it against the dataset's `sentence_normalized` column. "
               "*Median* is the median per-item CER and *Capped* caps each item's CER at 100%; both are robust to a "
-              "single runaway output or refusal. Not yet directly "
+              "single runaway output or refusal. For sentences, *prose WER* is the word error rate on the text outside "
+              "$...$ (does the system keep what was said?). Not yet directly "
               "comparable with the paper's published numbers (different normalizer and sample).", ""]
 
     gates = results["gates"]
@@ -215,6 +220,7 @@ def render_markdown(cfg: Config, results: dict) -> str:
                 *[f"{metric} {g}" for g in groups], "Exact", "Renders", "Latency p50 / p95 (s)", "Peak mem (GB)", "Load (s)"]
         if task == "sentences":
             head.insert(6, "full-text CER")
+            head.insert(7, "prose WER")
         lines += ["| " + " | ".join(head) + " |", "|" + "---|" * len(head)]
         for sys_name, r in split["systems"].items():
             if r.get("status") != "ok":
@@ -232,6 +238,7 @@ def render_markdown(cfg: Config, results: dict) -> str:
                    _fmt(r["peak_memory_gb"]), _fmt(r["load_s"], digits=1)]
             if task == "sentences":
                 row.insert(6, _fmt(r["views"]["full"]["cer"], pct=True))
+                row.insert(7, _fmt(r["views"]["prose"]["ter"], pct=True))
             lines.append("| " + " | ".join(row) + " |")
         lines += ["", "\\* latency of the text step only (the transcript comes from the dataset).", ""]
 

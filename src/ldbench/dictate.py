@@ -20,8 +20,9 @@ from pathlib import Path
 
 from .backends import ASR_KINDS, E2E_KINDS, TEXT_KINDS
 from .config import COLUMN_PREFIX, Config
+from .mixed import convert_mixed, span_converter
 from .postprocess import clean_output
-from .prompts import e2e_prompt, text_messages
+from .prompts import e2e_prompt, max_tokens_for, text_messages
 from .runner import ModelPool
 
 MIN_SECONDS = 0.3
@@ -33,36 +34,45 @@ OUTPUT_LABELS = {"paste": ", pasted", "type": ", typed", "copy": ", copied"}
 # --------------------------------------------------------------------------- models
 
 
-def max_tokens_for(transcript: str, cap: int) -> int:
-    """Bound generation by the length of what was said, so a repetition loop stays short."""
-    return min(cap, 32 + 6 * len(transcript.split()))
-
-
 class Pipeline:
-    """Audio file -> LaTeX with one benchmark system's models, loaded once."""
+    """Audio file -> LaTeX with one benchmark system's models, loaded once.
+
+    task "mixed" = prose with inline maths by split-then-convert (the system needs a segmenter).
+    """
 
     def __init__(self, cfg: Config, system_name: str, task: str):
         if system_name not in cfg.systems:
             raise SystemExit(f"unknown system {system_name!r}; choose from {sorted(cfg.systems)}")
         self.system = cfg.systems[system_name]
         self.task = task
+        self.mixed = task == "mixed"
+        model_task = "sentences" if self.mixed else task
         if self.system.asr and self.system.asr.startswith(COLUMN_PREFIX):
             raise SystemExit(f"{system_name} reads transcripts from the dataset; pick a system with a real ASR model")
+        if self.mixed and not self.system.segmenter:
+            with_seg = sorted(n for n, sc in cfg.systems.items() if sc.segmenter)
+            raise SystemExit(f"--task mixed needs a system with a segmenter: {with_seg}")
         self.pool = ModelPool(cfg, {"models": {}})
-        self.e2e = self.asr = self.text = None
+        self.e2e = self.asr = self.text = self.segmenter = None
         if self.system.e2e:
             self.e2e = self.pool.get(self.system.e2e, E2E_KINDS)
-        else:
-            self.asr = self.pool.get(self.system.asr, ASR_KINDS)
-            text_name = self.system.text_model_for(task)
-            self.text = self.pool.get(text_name, TEXT_KINDS) if text_name else None
+            return
+        self.asr = self.pool.get(self.system.asr, ASR_KINDS)
+        text_name = self.system.text_model_for(model_task)
+        self.text = self.pool.get(text_name, TEXT_KINDS) if text_name else None
+        if self.mixed:
+            self.segmenter = self.pool.get(self.system.segmenter, TEXT_KINDS)
+            self.convert_span = span_converter(self.text, self.system.prompt,
+                                               lambda t: max_tokens_for(t, self.system.max_tokens))
 
     def warm_up(self, wav_path: str) -> None:
         if self.e2e:
             self.e2e.generate(wav_path, e2e_prompt(self.task), 8)
             return
         self.asr.transcribe(wav_path)
-        if self.text:
+        if self.mixed:
+            convert_mixed("so x squared is positive", self.segmenter.generate, self.convert_span)
+        elif self.text:
             self.text.generate(text_messages(self.system.prompt, self.task, "x squared"), 8)
 
     def __call__(self, wav_path: str) -> dict:
@@ -75,6 +85,10 @@ class Pipeline:
         t1 = time.perf_counter()
         if not transcript.strip():
             return {"transcript": transcript, "raw": "", "latex": "", "asr_s": t1 - t0, "gen_s": 0.0}
+        if self.mixed:
+            out = convert_mixed(transcript, self.segmenter.generate, self.convert_span)
+            return {"transcript": transcript, "raw": out["tagged"], "latex": out["text"], "spans": out["spans"],
+                    "asr_s": t1 - t0, "gen_s": time.perf_counter() - t1}
         if self.text is None:
             raw = transcript
         else:
@@ -335,7 +349,7 @@ class Dictation:
             self._sound("error")
             self.out(f"  ! nothing recognised (heard: {result['transcript']!r})")
         else:
-            text = WRAPS[self.wrap].format(latex)
+            text = latex if getattr(self.pipeline, "mixed", False) else WRAPS[self.wrap].format(latex)
             self.clipboard(text)  # always, so it can be pasted again by hand
             if self.output == "paste":
                 self.paster()
