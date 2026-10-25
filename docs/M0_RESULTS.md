@@ -101,3 +101,38 @@ The data path also works: seeded sampling straight from the dataset's parquet fi
    - quantized versions of the paper's model;
    - Gemini via Vertex AI as the closed reference, which starts the Google Cloud trial.
 7. **TTS audit:** estimate how many TTS clips don't match their reference, by checking a random 50 by ear or against the oracle, before using TTS numbers for any claim.
+
+## Addendum: split-then-convert on sentences (10 clips)
+
+**The system:**
+- **Segmenter:** Qwen3-4B, which marks the maths spans. The prose is kept word for word from the transcript.
+- **Converter:** the paper's equation model, run on each marked span.
+
+It's compared only against systems given the **same transcripts**. That leaves out the oracle, which gets the ground-truth pronunciation, and Qwen2-Audio, which gets the audio itself.
+
+**Metrics:** mean per-clip scores. Maths CER is capped at 100% per clip. Prose WER is the word error rate on the text outside `$…$`.
+
+| Input | System | Maths CER | Prose WER |
+|---|---|---|---|
+| Dataset transcripts | Paper's sentence model | **55%** | **16%** |
+| | Split-then-convert | 86% | 33% |
+| Whisper-turbo transcripts | Paper's sentence model | 53% | 21% |
+| | Qwen3-4B, zero-shot, whole sentence | **33%** | **21%** |
+| | Split-then-convert | 86% | 32% |
+| | Whisper only (floor) | 100% | 73% |
+
+**Head to head:** split-then-convert beat the paper's model on 2 of the 10 clips and lost on 6.
+
+**Causes, from the clip-by-clip outputs:**
+1. **The equation model embellishes isolated short spans** (`k`→`\mathbb K`, `h`→`H(x)`, `2`→`2\pi`, `AB`→`A\setminus B`). It was trained on whole formulas. Most maths in these sentences is a single variable.
+2. **The segmenter misplaces boundaries.** It split "l equals 2" into two spans, and marked prose as maths.
+3. **Keeping the prose word for word keeps Whisper's errors.** The single-model systems fix those from context.
+
+**Where it helps:** on longer formulas it avoided the paper model's hallucination (`n+n\to l+l`) and its repetition loop.
+
+**Next, not yet evaluated:**
+- convert trivial spans by rule;
+- merge spans joined by maths words;
+- try Qwen3-4B as the converter, or as a single-model mixed mode.
+
+**Caveat:** these 10 clips have now been inspected. Any fix is to be tuned on a dev split and judged on M1's fresh sentences sample. With n = 10, none of these differences is significant.
