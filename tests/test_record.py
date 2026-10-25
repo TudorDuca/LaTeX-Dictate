@@ -32,6 +32,7 @@ def fake_sounddevice(rate=48_000, level=5000, fail_open=False):
             if fail_open:
                 raise FakePortAudioError("Internal PortAudio error [PaErrorCode -9986]")
             opened["samplerate"] = samplerate
+            opened["streams"] = opened.get("streams", 0) + 1
             self.callback = callback
 
         def __enter__(self):
@@ -44,8 +45,13 @@ def fake_sounddevice(rate=48_000, level=5000, fail_open=False):
         def __exit__(self, *exc):
             return False
 
+    def play(audio, samplerate):
+        opened["played"] = opened.get("played", 0) + 1
+
     sd.query_devices = query_devices
     sd.InputStream = InputStream
+    sd.play = play
+    sd.wait = lambda: None
     return sd, opened
 
 
@@ -58,7 +64,7 @@ def own_dir(tmp_path):
 def test_records_at_device_native_rate(own_dir, monkeypatch, capsys):
     sd, opened = fake_sounddevice(rate=48_000)
     monkeypatch.setitem(sys.modules, "sounddevice", sd)
-    answers = iter(["", "", "s", ""])  # f01: start, stop; f02: skip
+    answers = iter(["", "", "", "s"])  # f01: start, stop, keep; f02: skip
     monkeypatch.setattr("builtins.input", lambda prompt="": next(answers))
     stats = record(own_dir)
     assert opened["samplerate"] == 48_000
@@ -71,10 +77,21 @@ def test_records_at_device_native_rate(own_dir, monkeypatch, capsys):
 def test_warns_on_silent_take(own_dir, monkeypatch, capsys):
     sd, _ = fake_sounddevice(level=0)
     monkeypatch.setitem(sys.modules, "sounddevice", sd)
-    answers = iter(["", "", "q"])
+    answers = iter(["", "", "", "q"])  # f01: start, stop, keep; then quit
     monkeypatch.setattr("builtins.input", lambda prompt="": next(answers))
     record(own_dir)
     assert "silent" in capsys.readouterr().out
+
+
+def test_play_back_and_redo_a_take(own_dir, monkeypatch):
+    sd, opened = fake_sounddevice()
+    monkeypatch.setitem(sys.modules, "sounddevice", sd)
+    # f01: start, stop, play back, redo, start redo, stop, keep; f02: quit
+    answers = iter(["", "", "p", "r", "", "", "", "q"])
+    monkeypatch.setattr("builtins.input", lambda prompt="": next(answers))
+    stats = record(own_dir)
+    assert opened["played"] == 1 and opened["streams"] == 2
+    assert stats["sampled"]["own"] == 1
 
 
 def test_open_failure_explains_fixes(own_dir, monkeypatch):

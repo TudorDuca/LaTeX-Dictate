@@ -35,7 +35,10 @@ hf auth login                        # free Hugging Face account; needed if the 
    ```bash
    ldb record                       # uses the default input at its native rate
    ldb record --list-devices        # if the mic won't open: pick one with --device <index>
+   ldb record --only f07 --redo     # re-record one formula later
    ```
+   After each take you can keep it, redo it, or play it back. Keep "um"s, pauses and your own
+   phrasing, because that is natural dictation. Redo only if you said a different formula, left part out, or got cut off.
    If the mic still won't open, check System Settings > Privacy & Security > Microphone for your terminal app.
    Or record with Voice Memos or QuickTime and save each take as `data/own/audio/<id>.m4a`.
    `ldb fetch` converts those files.

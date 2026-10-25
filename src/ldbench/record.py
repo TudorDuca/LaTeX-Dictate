@@ -29,6 +29,9 @@ Open {html} in a browser to see each formula rendered.
 For each one: look at the rendered formula and say it the way you would naturally dictate it
 to a colleague. Don't read LaTeX command names, and don't rehearse; hesitations are fine.
 Controls: Enter = start, Enter = stop. Type 's' + Enter to skip, 'q' + Enter to quit.
+After each take: Enter = keep, 'r' = redo, 'p' = play it back.
+Keep takes with "um"s, pauses or your own phrasing: that is natural dictation.
+Redo only if you said a different formula, left part out, or got cut off.
 """
 
 
@@ -76,6 +79,33 @@ def _device_arg(device: str | None):
     return int(device) if device.isdigit() else device
 
 
+def _take(sd, rate: int, dev, own_dir: Path) -> list:
+    chunks: list = []
+    try:
+        stream = sd.InputStream(samplerate=rate, channels=1, dtype="int16", device=dev,
+                                callback=lambda data, frames, t, status: chunks.append(data.copy()))
+    except sd.PortAudioError as e:
+        raise SystemExit(OPEN_FAILED.format(error=e, audio_dir=own_dir / "audio")) from e
+    with stream:
+        input("  recording... Enter to stop > ")
+    return chunks
+
+
+def _review(sd, chunks: list, rate: int) -> str:
+    """Ask keep / redo / play back until the take is kept or rejected."""
+    import numpy as np
+
+    while True:
+        answer = input("  Enter = keep, r = redo, p = play back > ").strip().lower()
+        if answer in ("", "k", "y"):
+            return "keep"
+        if answer == "r":
+            return "redo"
+        if answer == "p" and chunks:
+            sd.play(np.concatenate(chunks), rate)
+            sd.wait()
+
+
 def list_devices() -> str:
     import sounddevice as sd
 
@@ -112,17 +142,15 @@ def record(own_dir: Path, only: list[str] | None = None, redo: bool = False,
             break
         if cmd == "s":
             continue
-        chunks: list = []
-        try:
-            stream = sd.InputStream(samplerate=rate, channels=1, dtype="int16", device=dev,
-                                    callback=lambda data, frames, t, status: chunks.append(data.copy()))
-        except sd.PortAudioError as e:
-            raise SystemExit(OPEN_FAILED.format(error=e, audio_dir=own_dir / "audio")) from e
-        with stream:
-            input("  recording... Enter to stop > ")
-        seconds, peak = save_wav(out, chunks, rate)
-        print(f"  saved {out.name} ({seconds:.1f} s)")
-        if peak < SILENCE_PEAK:
-            print("  ! this take is (almost) silent: check the microphone permission for your terminal\n"
-                  f"    app, then re-record with: ldb record --only {f['id']} --redo")
+        while True:  # one take per pass; loop on redo
+            chunks = _take(sd, rate, dev, own_dir)
+            seconds, peak = save_wav(out, chunks, rate)
+            print(f"  saved {out.name} ({seconds:.1f} s)")
+            if peak < SILENCE_PEAK:
+                print("  ! this take is (almost) silent: check the microphone permission for your "
+                      "terminal app")
+            choice = _review(sd, chunks, rate)
+            if choice == "keep":
+                break
+            input("  Enter to start the redo > ")
     return build_local_manifest(own_dir)
